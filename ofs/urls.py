@@ -19,4 +19,5 @@ from django.contrib import admin
 urlpatterns = [
     url(r'^store/', include('store.urls')),
     url(r'^admin/', admin.site.urls),
+    #url(r'^media/(?<path>.*)$', 'django.views.static.serve', {'document_root': settings.MEDIA_ROOT})
 ]

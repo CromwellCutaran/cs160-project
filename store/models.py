@@ -1,7 +1,7 @@
 from django.db import models
 
 # represents a typical product in OFS
-class SM_Product(models.Model):
+class SM_produce(models.Model):
     id = models.IntegerField(primary_key=True)
     name = models.CharField(max_length=100)
     # arguments of model type means
@@ -13,7 +13,7 @@ class SM_Product(models.Model):
     category = models.CharField(max_length=100)
     amount_left = models.IntegerField()
 
-class SC_Product(models.Model):
+class SC_Produce(models.Model):
     id = models.IntegerField(primary_key=True)
     name = models.CharField(max_length=100)
     # arguments of model type means

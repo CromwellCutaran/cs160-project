@@ -6,4 +6,6 @@ def index(request):
     #img = image.image_path
     #return render(request, 'lesson': img)
     return render(request, 'store/index0.html')
+    #return render(request, 'store/SM_produceStore.html')
+    #return render(request, 'store/SM_produceStore.html')
 
