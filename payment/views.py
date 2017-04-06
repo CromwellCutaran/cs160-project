@@ -19,12 +19,11 @@ def payment_canceled(request):
 # Create your views here.
 def payment_process(request):
     order_id = request.session.get("order_id")
-    order = get_object_or_404(Order, id=order_id)
     host = request.get_host()
 
     paypal_dict = {
         'business': settings.PAYPAL_RECEIVER_EMAIL,
-        'amount': '25.00',
+        'amount': '95.00',
         'currency_code': 'USD',
         'invoice': '123',
         'notify_url': 'http://{}{}'.format(host, reverse('paypal-ipn')),

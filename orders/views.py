@@ -1,6 +1,8 @@
 from django.http import HttpResponseRedirect
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponse
+from django.urls import reverse
+from orders.models import Order
 from .forms import OrderForm
 
 
@@ -12,6 +14,7 @@ def orders(request):
     if form.is_valid():
         instance = form.save(commit=False)
         instance.save()
+        return HttpResponseRedirect(reverse('payment:process'))
 
     #if request.method == "POST":
     #    print(request.POST.get("first_name"))
