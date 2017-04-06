@@ -1,11 +1,15 @@
 from django.shortcuts import render
 from django.http import HttpResponse
+from .models import SM_produce
+
 
 def index(request):
-    #image = SM_produce.objects.get(id=1)
-    #img = image.image_path
-    #return render(request, 'lesson': img)
     return render(request, 'store/index0.html')
-    #return render(request, 'store/SM_produceStore.html')
-    #return render(request, 'store/SM_produceStore.html')
 
+def products(request):
+    location = 'SC_produceStore.html' if request.path.split('_')[1] == 'sc' \
+        else 'SM_produceStore.html'
+    return render(request, "store/" + location)
+
+def tracking(request):
+    return HttpResponse("Tracking")
