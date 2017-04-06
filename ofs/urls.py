@@ -21,4 +21,5 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^paypal/',include('paypal.standard.ipn.urls')),
     url(r'^payment/', include('payment.urls', namespace='payment')),
+    url(r'^orders/', include('orders.urls')),
 ]
