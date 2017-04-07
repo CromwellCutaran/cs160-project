@@ -1,13 +1,27 @@
 <!--DOCTYPE HTML -->
 <html>
+<link rel="stylesheet" type="text/css" href="/static/orders.css">
 
 <body>
 
-<h1>Form</h1>
+<h1>Shipping Info</h1>
 <form method="POST" action='.'>{% csrf_token %}
-{{ form }}
+        <div id="first_name" class="order">{{ myform.first_name }}</div>
+
+        <div id="last_name" class="order">{{ myform.last_name }}</div>
+
+        <div id="address" class="order">{{ myform.address }}</div>
+
+        <div id="city" class="order">{{ myform.city }}</div>
+
+        <div id="zipcode" class="order">{{ myform.zipcode }}</div>
+
+
 <input type="submit" value = 'Submit Order'/>
 </form>
+
+{% block body %}
+{% endblock %}
 </body>
 
 </html>

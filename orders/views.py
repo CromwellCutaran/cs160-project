@@ -25,4 +25,4 @@ def orders(request):
     context = {
         "form": form,
     }
-    return render(request, "orders/orders.html", context)
+    return render(request, "orders/orders.html", {'myform': form})
