@@ -14,7 +14,7 @@
         </div>
         <div class="grid__item small--one-half medium--one-third large-up--one-quarter logo-align--center">
           <h1 class="h2 site-header__logo" itemscope itemtype="http://schema.org/Organization">
-            <a class="site-header__logo-link" href="/" itemprop="url">Organic Food Store</a>
+            <a class="site-header__logo-link" itemprop="url">Organic Food Store</a>
           </h1>
         </div>
         <div class="grid__item small--one-half medium-up--one-quarter text-right site-header__icons">
@@ -32,7 +32,7 @@
                     <option value="Vegatable">Vegatable</option>
                 </select>
 
-                <a href="/cart" class="site-header__cart">
+                <a href="./cart" class="site-header__cart">
                 <svg aria-hidden="true" focusable="false" role="presentation" class="icon icon-cart" viewBox="0 0 37 40"><path d="M36.5 34.8L33.3 8h-5.9C26.7 3.9 23 .8 18.5.8S10.3 3.9 9.6 8H3.7L.5 34.8c-.2 1.5.4 2.4.9 3 .5.5 1.4 1.2 3.1 1.2h28c1.3 0 2.4-.4 3.1-1.3.7-.7 1-1.8.9-2.9zm-18-30c2.2 0 4.1 1.4 4.7 3.2h-9.5c.7-1.9 2.6-3.2 4.8-3.2zM4.5 35l2.8-23h2.2v3c0 1.1.9 2 2 2s2-.9 2-2v-3h10v3c0 1.1.9 2 2 2s2-.9 2-2v-3h2.2l2.8 23h-28z"/></svg>
                 <span class="visually-hidden">Cart</span>
                 <span class="icon__fallback-text">Cart</span>
@@ -64,30 +64,16 @@
             <div class="section-header text-center">
                 <h2>Our Products</h2>
             </div>
-            <div class="grid grid--uniform grid--view-items">
-                <div class="grid__item grid__item--featured-collections small--one-half medium-up--one-fifth">
-                    <div class="grid-view-item">
-                        <img class="grid-view-item__image" src="http://i.imgur.com/hDNsdDj.jpg" alt="Apple">
-                        <div class="h4 grid-view-item__title text-center">{{ SM.name }}</div>
-                        <div class="grid-view-item__meta">
-                            <span class="product-price__price">$1.11</span>
-                            <div class="product-form__item product-form__item--submit">
-                                <button type="submit" name="add" id="AddToCart-product-template"  class="btn product-form__cart-submit product-form__cart-submit--small">
-                                    <span id="AddToCartText-product-template">
-                                        Add to cart
-                                    </span>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
 
+            <div class="grid grid--uniform grid--view-items">
+             {% for s in test %}
                 <div class="grid__item grid__item--featured-collections small--one-half medium-up--one-fifth">
                     <div class="grid-view-item">
-                        <img class="grid-view-item__image" src="https://saltmarshrunning.com/wp-content/uploads/2014/09/bananasf.jpg" alt="Banana">
-                        <div class="h4 grid-view-item__title text-center">Banana</div>
+                        <a class="grid-view-item__link">
+                        <img class="grid-view-item__image" src="{{ s.image_path }}" height="150" width="150">
+                        <div class="h4 grid-view-item__title text-center">{{ s.name }}</div>
                         <div class="grid-view-item__meta">
-                            <span class="product-price__price text-center">$1.11</span>
+                            <span class="product-price__price">Price: ${{ s.price }}</span>
                             <div class="product-form__item product-form__item--submit">
                                 <button type="submit" name="add" id="AddToCart-product-template"  class="btn product-form__cart-submit product-form__cart-submit--small">
                                     <span id="AddToCartText-product-template">
@@ -96,11 +82,11 @@
                                 </button>
                             </div>
                         </div>
+                            </a>
                     </div>
                 </div>
-            </div>
-        </div>
-      </div><!-- END content_for_index -->
+                {% endfor %}
+        </div><!-- END content_for_index -->
     </main>
 
     <div id="section-footer" class="main-section">
