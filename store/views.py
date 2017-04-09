@@ -9,10 +9,10 @@ def index(request):
 def products(request):
     location = 'SC_produceStore.html' if request.path.split('_')[1] == 'sc' \
         else 'SM_produceStore.html'
-    test = SC_produce.objects.all() if request.path.split('_')[1] == 'sc' \
+    db_products = SC_produce.objects.all() if request.path.split('_')[1] == 'sc' \
         else SM_produce.objects.all()
     context = {
-        'test': test,
+        'db_products' : db_products,
     }
     return render(request, "store/" + location, context)
 

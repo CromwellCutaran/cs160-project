@@ -66,14 +66,14 @@
             </div>
 
             <div class="grid grid--uniform grid--view-items">
-             {% for s in test %}
+             {% for product in db_products %}
                 <div class="grid__item grid__item--featured-collections small--one-half medium-up--one-fifth">
                     <div class="grid-view-item">
                         <a class="grid-view-item__link">
-                        <img class="grid-view-item__image" src="{{ s.image_path }}" height="150" width="150">
-                        <div class="h4 grid-view-item__title text-center">{{ s.name }}</div>
+                        <img class="grid-view-item__image" src="{{ product.image_path }}" height="150" width="150">
+                        <div class="h4 grid-view-item__title text-center">{{ product.name }}</div>
                         <div class="grid-view-item__meta">
-                            <span class="product-price__price">Price: ${{ s.price }}</span>
+                            <span class="product-price__price">Price: ${{ product.price }}</span>
                             <div class="product-form__item product-form__item--submit">
                                 <button type="submit" name="add" id="AddToCart-product-template"  class="btn product-form__cart-submit product-form__cart-submit--small">
                                     <span id="AddToCartText-product-template">
