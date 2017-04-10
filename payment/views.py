@@ -4,7 +4,8 @@ from django.conf import settings
 from django.core.urlresolvers import reverse
 from paypal.standard.forms import PayPalPaymentsForm
 from django.views.decorators.csrf import csrf_exempt
-from orders.models import Order
+from orders.models import Order, OrderItems
+from store.models import SC_produce, SM_produce
 
 @csrf_exempt
 def payment_done(request):
@@ -25,6 +26,26 @@ def payment_process(request):
     print(order.order_id)
     print(order)
 
+    orderitems = OrderItems.objects.all()
+    productsSM = SM_produce.objects.all()
+    productsSC = SC_produce.objects.all()
+    orderitems = orderitems.filter(order_id=order_idm)
+    print(orderitems)
+
+
+
+    orderitems = {
+        'orderitems': orderitems,
+    }
+
+    productsSM ={
+    'productsSM': productsSM,
+    }
+    productsSC ={
+    'productsSC': productsSC,
+    }
+
+
     paypal_dict = {
         'business': settings.PAYPAL_RECEIVER_EMAIL,
         'amount': order.price_total,
@@ -38,4 +59,4 @@ def payment_process(request):
     }
 
     form = PayPalPaymentsForm(initial=paypal_dict)
-    return render(request, 'payment/process.html', {'form': form})
+    return render(request, 'payment/process.html', {'form': form, 'orderitems': orderitems, 'productsSM': productsSM, 'productsSC': productsSC})

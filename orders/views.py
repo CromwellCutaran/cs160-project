@@ -20,6 +20,20 @@ def orders(request):
         instance.save()
         print(instance.order_id)
         request.session['order_id'] = instance.order_id
+
+        itemid1 = 1
+        itemid2 = 2
+        itemid3 = 3
+        quan1 = 4
+        quan2 = 1
+        quan3 = 2
+
+        OrderItem1 = OrderItems.objects.create(order_id=instance.order_id, item_id=itemid1, quantity=quan1)
+        OrderItem2 = OrderItems.objects.create(order_id=instance.order_id, item_id=itemid2, quantity=quan2)
+        OrderItem = OrderItems.objects.create(order_id=instance.order_id, item_id=itemid3, quantity=quan3)
+        print(OrderItem1.quantity)
+
+
         return HttpResponseRedirect(reverse('payment:process'))
 
     #if request.method == "POST":
@@ -28,14 +42,6 @@ def orders(request):
         "form": form,
     }
 
-    itemid1 = 1
-    itemid2 = 1
-    itemid3 = 1
-    quan1 = 4
-    quan2 = 1
-    quan3 = 2
-
-    OrderItem = OrderItems
 
 
 
