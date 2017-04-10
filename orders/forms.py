@@ -11,12 +11,14 @@ class OrderForm(forms.ModelForm):
             "address",
             "city",
             "zipcode",
+            "email",
+            "state",
           )
-        widgets = {
-            'first_name': forms.TextInput(attrs={'placeholder': 'First Name'}),
-            'last_name': forms.TextInput(attrs={'placeholder': 'Last Name'}),
-            'address': forms.TextInput(attrs={'placeholder': 'Address'}),
-            'city': forms.TextInput(attrs={'placeholder': 'City'}),
-            'zipcode': forms.TextInput(attrs={'placeholder': 'Zipcode'}),
-
-        }
+ #       widgets = {
+ #           'first_name': forms.TextInput(attrs={'placeholder': 'First Name'}),
+ #           'last_name': forms.TextInput(attrs={'placeholder': 'Last Name'}),
+ #           'address': forms.TextInput(attrs={'placeholder': 'Address'}),
+ #           'city': forms.TextInput(attrs={'placeholder': 'City'}),
+ #           'zipcode': forms.TextInput(attrs={'placeholder': 'Zipcode'}),
+ #
+ #       }

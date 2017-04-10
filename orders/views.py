@@ -5,7 +5,9 @@ from django.urls import reverse
 from django.urls import reverse_lazy
 
 from orders.models import Order
+from .models import OrderItems
 from .forms import OrderForm
+from store.models import SC_produce, SM_produce
 
 
 #def orders(request):
@@ -25,4 +27,19 @@ def orders(request):
     context = {
         "form": form,
     }
+
+    itemid1 = 1
+    itemid2 = 1
+    itemid3 = 1
+    quan1 = 4
+    quan2 = 1
+    quan3 = 2
+
+    OrderItem = OrderItems
+
+
+
+
+
+
     return render(request, "orders/orders.html", {'myform': form})

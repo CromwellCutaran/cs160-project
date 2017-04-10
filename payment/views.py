@@ -30,7 +30,7 @@ def payment_process(request):
         'amount': order.price_total,
         'currency_code': 'USD',
         'invoice': str(order.order_id),
-        'handling' : '5.00',
+        'handling': '5.00',
         'notify_url': 'http://{}{}'.format(host, reverse('paypal-ipn')),
         'return_url': 'http://{}{}'.format(host, reverse('payment:done')),
         'cancel_return': 'http://{}{}'.format(host, reverse('payment:canceled')),
