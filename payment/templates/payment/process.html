@@ -35,8 +35,8 @@
             <div class="panel panel-default">
                 <div class="panel-body">
                 <h1><i class="fa fa-check-circle" aria-hidden="true"></i></i> Confirmation Page</h1>
-                    {% for item in productsSC %}
-                       <p>{{ item.name }}</p>
+                    {% for order in orderitems %}
+                       <p>{{ order.item_id }}</p>
                     {% endfor %}
                     {% for product in productsSC %}
                         <div>{{ item.name }}</div>
@@ -45,7 +45,7 @@
 
                     {% block content %}
                     <h1>Pay using Paypal</h1>
-                    {{ form.render}}
+                    {{ form.render }}
                         <p> hey </p>
                 </div>
             </div>
