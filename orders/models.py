@@ -33,3 +33,6 @@ class OrderItems(models.Model):
 
     def __int__(self):
         return self.order_id
+
+    def get_fields(self):
+        return [(field.name, field.value_to_string(self)) for field in OrderItems._meta.fields]

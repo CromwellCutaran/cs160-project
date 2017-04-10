@@ -35,13 +35,12 @@
             <div class="panel panel-default">
                 <div class="panel-body">
                 <h1><i class="fa fa-check-circle" aria-hidden="true"></i></i> Confirmation Page</h1>
-                    {% for item in orderitems %}
-                        <div class="col-xs-4"><p>{{ item.item_id }}</p></div>
-
-
-
+                    {% for item in productsSC %}
+                       <p>{{ item.name }}</p>
                     {% endfor %}
-                    {{ context }}
+                    {% for product in productsSC %}
+                        <div>{{ item.name }}</div>
+                    {% endfor %}
 
 
                     {% block content %}

@@ -31,19 +31,22 @@ def payment_process(request):
     productsSC = SC_produce.objects.all()
     orderitems = orderitems.filter(order_id=order_idm)
     print(orderitems)
+    for x in orderitems:
+        print(x.quantity)
+    print(productsSC)
 
 
 
     orderitems = {
         'orderitems': orderitems,
     }
-
     productsSM ={
-    'productsSM': productsSM,
+        'productsSM': productsSM,
     }
     productsSC ={
-    'productsSC': productsSC,
+        'productsSC': productsSC,
     }
+
 
 
     paypal_dict = {
@@ -59,4 +62,5 @@ def payment_process(request):
     }
 
     form = PayPalPaymentsForm(initial=paypal_dict)
-    return render(request, 'payment/process.html', {'form': form, 'orderitems': orderitems, 'productsSM': productsSM, 'productsSC': productsSC})
+    return render(request, 'payment/process.html', {'orderitems': orderitems, 'productsSM': productsSM,
+                                                    'productsSC': productsSC, 'form': form,})
