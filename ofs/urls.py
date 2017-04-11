@@ -19,4 +19,7 @@ from django.contrib import admin
 urlpatterns = [
     url(r'^store/', include('store.urls')),
     url(r'^admin/', admin.site.urls),
+    url(r'^paypal/',include('paypal.standard.ipn.urls')),
+    url(r'^payment/', include('payment.urls', namespace='payment')),
+    url(r'^orders/', include('orders.urls')),
 ]

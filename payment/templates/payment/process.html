@@ -1,0 +1,83 @@
+
+<!--DOCTYPE HTML -->
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="/static/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="/static/orders.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="/static/productStyle.css" rel="stylesheet" type="text/css" media="all" />
+</head>
+
+<body class="template-index">
+{% load bootstrap3 %}
+
+
+
+
+  <div class="page-container" id="PageContainer">
+    <main class="main-content" id="MainContent" role="main">
+      <div id="label-pic" class="main-section index-section index-section--flush">
+          <div class="hero hero--small hero__overlay" style="background-image: url('http://i.imgur.com/smoyLE4.jpg'); background-position: center center;">
+            <div class="hero__inner">
+                <div class="page-width text-center">
+                    <h2 class="h1 mega-title mega-title--large">Organic Food Store</h2>
+                </div>
+            </div>
+          </div>
+      </div>
+
+<div class="container">
+    <div class="row">
+    <div class="col-sm-12">
+            <div class="panel panel-default">
+                <div class="panel-body text-center">
+                <h1><i class="fa fa-check-circle" aria-hidden="true"></i></i> Confirmation Page</h1>
+                    <div>Name : {{ order.first_name }} {{ order.last_name }}</div>
+                    <div>Address : {{ order.address }} {{ order.city }} {{ order.state }} {{ order.zipcode }}</div>
+                    {% for order in orderitemQuery %}
+                       <div>{{ order.item_id }}</div>
+                    {% endfor %}
+                    {% for item in products %}
+                        <div>{{ item.name }}</div>
+                    {% endfor %}
+
+
+                    {% block content %}
+                    <h1>Pay using Paypal</h1>
+                    {{ form.render }}
+                        <p> hey </p>
+                    {% endblock %}
+                </div>
+        </div>
+      </div>
+    </div>
+</div>
+
+
+
+
+    <div id="section-footer" class="main-section">
+        <footer class="site-footer" role="contentinfo">
+            <div class="page-width">
+                <div class="grid grid--no-gutters">
+                    <div class="grid__item text-center"></div>
+                    <div class="grid__item text-center"></div>
+                </div>
+                <div class="grid grid--no-gutters">
+                    <div class="grid__item text-center"></div>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+
+    <script
+      src="https://code.jquery.com/jquery-3.1.1.min.js"
+      integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+      crossorigin="anonymous"></script>
+    <script type="text/javascript" src="/static/bootstrap.min.js"></script>
+</body>
+
+</html>
