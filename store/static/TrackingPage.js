@@ -10,12 +10,14 @@ function sendTracking(e)
 	{
 		var trackNumber = trackingNumber.value;
 	console.log("in sendTracking " + trackingNumber.value);
-	window.location.href = "trackingPage.html";
-	console.log("sending trackNumber to server");
-  /* $.ajax({
-        url : "post", // the endpoint
-        type : "POST", // http method
-        data : { tNumber : trackNumber }, // data sent with the post request
+    //window.location.href = "track";
+	console.log("sending trackNumber to server....");
+   $.ajax({
+        url : "./post_tracking", // the endpoint
+        type : "GET", // http method
+        data : { tNumber : trackNumber,
+            'csrfmiddlewaretoken': '{{ csrf_token }}'
+         }, // data sent with the post request
 
         // handle a successful response
         success : function(json) {
@@ -30,7 +32,7 @@ function sendTracking(e)
         	console.log("data could not be sent to server");
         }
         
-    });*/
+    });
 
 	}
 	else 
