@@ -60,6 +60,24 @@
         <div class="col-sm-4">
             <div class="panel panel-default">
                 <div class="panel-body">
+                <h1>Cart</h1>
+                    <div class="col-xs-4 text-center">Item
+                    {% for item1, quan, pricetotal in li_result %}
+                        <div class="row">{{ item1.name }}</div>
+                    {% endfor %}
+                    </div>
+                    <div class="col-xs-4 text-center">Quantity
+                    {% for item1, quan, pricetotal in li_result %}
+                        <div class="row">{{ quan }}</div>
+                    {% endfor %}
+                    </div>
+                    <div class="col-xs-4 text-center">Price
+                        {% for item1, quan, pricetotal in li_result %}
+                        <div class="row">{{ pricetotal }}</div>
+                        {% endfor %}
+                    </div>
+
+                     <div class="text-center">Total : {{ total }}</div>
                     </div>
                 </div>
       </div>
