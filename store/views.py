@@ -9,8 +9,8 @@ def index(request):
 def products(request):
     location = 'SC_produceStore.html' if request.path.split('_')[1] == 'sc' \
         else 'SM_produceStore.html'
-    test = SC_produce.objects.all() if request.path.split('_')[1] == 'sc' \
-        else SM_produce.objects.all()
+    test = SC_produce.objects.all().order_by('name') if request.path.split('_')[1] == 'sc' \
+        else SM_produce.objects.all().order_by('name')
     context = {
         'test': test,
     }
