@@ -1,4 +1,7 @@
 <!DOCTYPE html>
+
+<script type="text/javascript" src="{{ STATIC_URL }} /static/jquery-3.2.0.min.js"></script>
+
 <!--[if IE 9]> <html class="ie9 no-js" lang="en"> <![endif]-->
 <!--[if (gt IE 9)|!(IE)]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
 <head>
@@ -75,7 +78,7 @@
                         <div class="grid-view-item__meta">
                             <span class="product-price__price">Price: ${{ product.price }}</span>
                             <div class="product-form__item product-form__item--submit">
-                                <button type="submit" name="add" id="AddToCart-product-template"  class="btn product-form__cart-submit product-form__cart-submit--small">
+                                <button type="submit" name="add" id="AddToCart-product-template"  class="btn product-form__cart-submit product-form__cart-submit--small add_to_cart" value="{{ product }}">
                                     <span id="AddToCartText-product-template">
                                         Add to cart
                                     </span>
@@ -105,3 +108,17 @@
   </div>
 </body>
 </html>
+
+<script type="text/javascript">
+$(document).ready(function(){
+    $('.add_to_cart').click(function(){
+        var item = $(this).val();
+        //var item_json = item.replace(/'/g, '"');
+        console.log(item);
+        debugger;
+        alert("Added 1 " + item + " to your cart!");
+
+        //$.post('/update_cart/' data, function)
+    });
+});
+</script>
