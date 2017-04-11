@@ -5,7 +5,7 @@ from django.core.urlresolvers import reverse
 from paypal.standard.forms import PayPalPaymentsForm
 from django.views.decorators.csrf import csrf_exempt
 from orders.models import Order, OrderItems
-from store.models import SC_produce, SM_produce
+#from store.models import SC_produce, SM_produce
 
 @csrf_exempt
 def payment_done(request):
