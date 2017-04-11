@@ -31,14 +31,15 @@
 <div class="container">
     <div class="row">
     <div class="col-sm-12">
-        <div class="col-sm-8">
             <div class="panel panel-default">
-                <div class="panel-body">
+                <div class="panel-body text-center">
                 <h1><i class="fa fa-check-circle" aria-hidden="true"></i></i> Confirmation Page</h1>
-                    {% for order in orderitems %}
-                       <p>{{ order.item_id }}</p>
+                    <div>Name : {{ order.first_name }} {{ order.last_name }}</div>
+                    <div>Address : {{ order.address }} {{ order.city }} {{ order.state }} {{ order.zipcode }}</div>
+                    {% for order in orderitemQuery %}
+                       <div>{{ order.item_id }}</div>
                     {% endfor %}
-                    {% for product in productsSC %}
+                    {% for item in products %}
                         <div>{{ item.name }}</div>
                     {% endfor %}
 
@@ -47,15 +48,15 @@
                     <h1>Pay using Paypal</h1>
                     {{ form.render }}
                         <p> hey </p>
+                    {% endblock %}
                 </div>
-            </div>
         </div>
       </div>
     </div>
 </div>
 
 
-{% endblock %}
+
 
     <div id="section-footer" class="main-section">
         <footer class="site-footer" role="contentinfo">
@@ -70,9 +71,7 @@
             </div>
         </footer>
     </div>
-  </div>
-{% block body %}
-{% endblock %}
+
 
     <script
       src="https://code.jquery.com/jquery-3.1.1.min.js"

@@ -9,7 +9,13 @@ from store.models import SC_produce, SM_produce
 
 @csrf_exempt
 def payment_done(request):
+    order_idm = request.session.get("order_id")
+    order = Order.objects.get(order_id=order_idm)
+    order.paid = True
+    order.save()
+
     return render(request, 'payment/done.html')
+
 
 
 @csrf_exempt
@@ -26,28 +32,20 @@ def payment_process(request):
     print(order.order_id)
     print(order)
 
+
     orderitems = OrderItems.objects.all()
     productsSM = SM_produce.objects.all()
     productsSC = SC_produce.objects.all()
-    orderitems = orderitems.filter(order_id=order_idm)
-    print(orderitems)
-    for x in orderitems:
-        print(x.quantity)
-    print(productsSC)
-
-
-
-    orderitems = {
-        'orderitems': orderitems,
-    }
-    productsSM ={
-        'productsSM': productsSM,
-    }
-    productsSC ={
-        'productsSC': productsSC,
-    }
-
-
+    orderitemQuery = list(orderitems.filter(order_id=order_idm))
+    products = []
+    for item in orderitemQuery:
+        product = productsSC.filter(id = item.item_id)
+        products.extend(product)
+    #print(orderitemQuery)
+    #for x in orderitemQuery:
+    #    print(x.quantity)
+    #print(productsSC)
+    print(products)
 
     paypal_dict = {
         'business': settings.PAYPAL_RECEIVER_EMAIL,
@@ -62,5 +60,4 @@ def payment_process(request):
     }
 
     form = PayPalPaymentsForm(initial=paypal_dict)
-    return render(request, 'payment/process.html', {'orderitems': orderitems, 'productsSM': productsSM,
-                                                    'productsSC': productsSC, 'form': form,})
+    return render(request, 'payment/process.html', {'orderitemQuery': orderitemQuery, 'products': products, 'form': form, 'order': order})

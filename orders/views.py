@@ -29,19 +29,20 @@ def orders(request):
     itemprices = []
     for item in items:
         itemquery.extend(productsSC.filter(id=item))
+    print(itemquery)
     for item, quan in zip(itemquery,quantity):
         itemprice = item.price
         itemprices.append(itemprice * quan)
-    print(itemprices)
+    #print(itemprices)
     combined = zip(itemquery, quantity, itemprices)
     total = 0
     for prices in itemprices:
         total += prices
 
-    print(total)
+    #print(total)
     li_result = list(combined)
 
-    print(li_result)
+    #print(li_result)
 
 
 
@@ -50,13 +51,16 @@ def orders(request):
     if form.is_valid():
         instance = form.save(commit=False)
         instance.save()
-        print(instance.order_id)
+        orderObject = Order.objects.get(order_id=instance.order_id)
+        orderObject.price_total = total
+        orderObject.save()
+        #print(instance.order_id)
         request.session['order_id'] = instance.order_id
+
 
         OrderItem1 = OrderItems.objects.create(order_id=instance.order_id, item_id=itemid1, quantity=quan1)
         OrderItem2 = OrderItems.objects.create(order_id=instance.order_id, item_id=itemid2, quantity=quan2)
         OrderItem = OrderItems.objects.create(order_id=instance.order_id, item_id=itemid3, quantity=quan3)
-        print(OrderItem1.quantity)
 
 
         return HttpResponseRedirect(reverse('payment:process'))
