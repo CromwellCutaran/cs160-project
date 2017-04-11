@@ -14,6 +14,7 @@ def products(request):
     context = {
         'db_products' : db_products,
     }
+    print(db_products)
     return render(request, "store/" + location, context)
 
 def tracking(request):
