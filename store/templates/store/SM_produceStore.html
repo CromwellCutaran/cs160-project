@@ -69,14 +69,14 @@
             </div>
 
             <div class="grid grid--uniform grid--view-items">
-             {% for product in db_products %}
+             {% for product in db_products %}                
                 <div class="grid__item grid__item--featured-collections small--one-half medium-up--one-fifth">
                     <div class="grid-view-item">
                         <a class="grid-view-item__link">
-                        <img class="grid-view-item__image" src="{{ product.image_path }}" height="150" width="150">
-                        <div class="h4 grid-view-item__title text-center">{{ product.name }}</div>
+                        <img class="grid-view-item__image" src="{{ product.fields.image_path }}" height="150" width="150">
+                        <div class="h4 grid-view-item__title text-center">{{ product.fields.name }}</div>
                         <div class="grid-view-item__meta">
-                            <span class="product-price__price">Price: ${{ product.price }}</span>
+                            <span class="product-price__price">Price: ${{ product.fields.price }}</span>
                             <div class="product-form__item product-form__item--submit">
                                 <button type="submit" name="add" id="AddToCart-product-template"  class="btn product-form__cart-submit product-form__cart-submit--small add_to_cart" value="{{ product }}">
                                     <span id="AddToCartText-product-template">
@@ -88,10 +88,9 @@
                             </a>
                     </div>
                 </div>
-                {% endfor %}
+            {% endfor %}                
         </div><!-- END content_for_index -->
     </main>
-
     <div id="section-footer" class="main-section">
         <footer class="site-footer" role="contentinfo">
             <div class="page-width">
@@ -111,14 +110,25 @@
 
 <script type="text/javascript">
 $(document).ready(function(){
-    $('.add_to_cart').click(function(){
+    $('.add_to_cart').click(function() {
+        // parse the data
         var item = $(this).val();
-        //var item_json = item.replace(/'/g, '"');
-        console.log(item);
-        debugger;
-        alert("Added 1 " + item + " to your cart!");
+        var item_json = JSON.parse(item.replace(/'/g, '"'));
+        var item_fields = item_json['fields']
+        console.log(item_json);
+        // debugger;
+        alert("Added 1 " + item_fields['name'] + " to your cart!");
 
-        //$.post('/update_cart/' data, function)
+        // make the POST request
+        $.ajax({
+            url: './update_cart/',
+            type: 'POST',
+            data: {'csrfmiddlewaretoken' : '{{ csrf_token }}', 'item' : JSON.stringify(item_fields) },
+            dataType: 'json',
+            success: function() {
+                console.log(data);
+            }
+        });
     });
 });
 </script>
