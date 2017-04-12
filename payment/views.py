@@ -1,5 +1,6 @@
 from django.shortcuts import render, get_object_or_404
-from decimal import Decimal
+from paypal.standard.models import ST_PP_COMPLETED
+from paypal.standard.ipn.signals import valid_ipn_received, invalid_ipn_received
 from django.conf import settings
 from django.core.urlresolvers import reverse
 from paypal.standard.forms import PayPalPaymentsForm
@@ -10,10 +11,10 @@ import jsonpickle
 
 @csrf_exempt
 def payment_done(request):
-    order_idm = request.session.get("order_id")
-    order = Order.objects.get(order_id=order_idm)
-    order.paid = True
-    order.save()
+    #order_idm = request.session.get("order_id")
+    #order = Order.objects.get(order_id=order_idm)
+    #order.paid = True
+    #order.save()
 
     return render(request, 'payment/done.html')
 
@@ -44,9 +45,10 @@ def payment_process(request):
 
     paypal_dict = {
         'business': settings.PAYPAL_RECEIVER_EMAIL,
+        'custom': order.order_id,
         'amount': order.price_total,
         'item_name': str(order.order_id),
-        'invoice': str(order),
+        'invoice': str(order.order_id),
         'currency_code': 'USD',
         'notify_url': 'http://{}{}'.format(host, reverse('paypal-ipn')),
         'return_url': 'http://{}{}'.format(host, reverse('payment:done')),
@@ -54,6 +56,11 @@ def payment_process(request):
 
     }
 
+    print(paypal_dict)
+
     form = PayPalPaymentsForm(initial=paypal_dict)
     return render(request, 'payment/process.html', {'orderitemQuery': orderitemQuery, 'products': products, 'form': form,
                                                     'order': order, 'result': result})
+
+
+
