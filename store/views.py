@@ -41,13 +41,22 @@ def products(request):
     return render(request, "store/" + location, context)
 
 def cart(request):
+
+    # TODO:
+    # Have two +/- buttons for quantity changing
+    # Checkout button in bottom-right
+    
     output = ""
     cart = request.session['cart']
     gen = (key for key in cart.keys() if key != 'location_id')
     for key in gen:
         output += (key + " " + "Quantity: " + str(cart[key][1]) + "<br/>")
+
+    context = { 'cart' : cart }
+
     #pdb.set_trace()
-    return HttpResponse(output)
+
+    return render(request, 'store/cart.html', context)
 
 
 def tracking(request):
@@ -78,5 +87,10 @@ def update_cart(request):
         cart[fields['name']][1] += 1
 
     request.session['cart'] = cart
+
+
+    # TODO?:
+    # Decrement cart items from database
+
 
     return HttpResponse("Cart updated")
