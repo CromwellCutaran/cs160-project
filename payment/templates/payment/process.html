@@ -33,19 +33,34 @@
     <div class="col-sm-12">
             <div class="panel panel-default">
                 <div class="panel-body text-center">
-                <h1><i class="fa fa-check-circle" aria-hidden="true"></i></i> Confirmation Page</h1>
+                <h1><i class="fa fa-check-circle" aria-hidden="true"></i></i> Confirmation Page<hr></h1>
+
                     <div>Name : {{ order.first_name }} {{ order.last_name }}</div>
                     <div>Address : {{ order.address }} {{ order.city }} {{ order.state }} {{ order.zipcode }}</div>
-                    {% for order in orderitemQuery %}
-                       <div>{{ order.item_id }}</div>
+                    <div>Email : {{ order.email }}
+                    </div>
+                <br>
+                    <div>Order Items:</div>
+                    <div class="col-sm-4 col-sm-offset-4">
+                    <div class="col-xs-4 text-center">Item
+                    {% for item1, quan, pricetotal in result %}
+                        <div class="row">{{ item1.name }}</div>
                     {% endfor %}
-                    {% for item in products %}
-                        <div>{{ item.name }}</div>
+                    </div>
+                    <div class="col-xs-4 text-center">Quantity
+                    {% for item1, quan, pricetotal in result %}
+                        <div class="row">{{ quan }}</div>
                     {% endfor %}
-
-
+                    </div>
+                    <div class="col-xs-4 text-center">Price
+                        {% for item1, quan, pricetotal in result %}
+                        <div class="row">{{ pricetotal }}</div>
+                        {% endfor %}
+                    </div>
+                    <br>
+                    <br>
                     {% block content %}
-                    <h1>Pay using Paypal</h1>
+                    <h4>Pay using Paypal</h4>
                     {{ form.render }}
                         <p> hey </p>
                     {% endblock %}

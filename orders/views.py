@@ -3,6 +3,7 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.urls import reverse
 from django.urls import reverse_lazy
+import jsonpickle
 
 from orders.models import Order
 from .models import OrderItems
@@ -41,8 +42,11 @@ def orders(request):
 
     #print(total)
     li_result = list(combined)
+    result = jsonpickle.encode(li_result)
 
     #print(li_result)
+    request.session['result'] = result
+
 
 
 

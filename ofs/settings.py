@@ -127,4 +127,4 @@ STATIC_ROOT = 'static/'
 
 #django-paypal settings=
 PAYPAL_TEST = True
-PAYPAL_RECEIVER_EMAIL = 'cs160.paypalb@gmail.com'
+PAYPAL_RECEIVER_EMAIL = 'cs160.business@gmail.com'

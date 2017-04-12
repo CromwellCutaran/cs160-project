@@ -2,3 +2,18 @@
 
 .grid-view-item__meta .product-price__price { float: right }
 
+.row.no-gutter{
+    margin-left:0;
+    margin-right:0;
+}
+
+.row.no-gutter [class*='col-']:not(:first-child),
+.row.no-gutter [class*='col-']:not(:last-child) {
+  padding-right: 0;
+  padding-left: 0;
+}
+
+.topheader{
+    padding: 0px;
+}
+

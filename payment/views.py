@@ -6,6 +6,7 @@ from paypal.standard.forms import PayPalPaymentsForm
 from django.views.decorators.csrf import csrf_exempt
 from orders.models import Order, OrderItems
 from store.models import SC_produce, SM_produce
+import jsonpickle
 
 @csrf_exempt
 def payment_done(request):
@@ -26,11 +27,10 @@ def payment_canceled(request):
 # Create your views here.
 def payment_process(request):
     order_idm = request.session.get("order_id")
+    li_result = request.session.get("result")
+    result = jsonpickle.decode(li_result)
     host = request.get_host()
     order = Order.objects.get(order_id=order_idm)
-    print(order.price_total)
-    print(order.order_id)
-    print(order)
 
 
     orderitems = OrderItems.objects.all()
@@ -41,18 +41,13 @@ def payment_process(request):
     for item in orderitemQuery:
         product = productsSC.filter(id = item.item_id)
         products.extend(product)
-    #print(orderitemQuery)
-    #for x in orderitemQuery:
-    #    print(x.quantity)
-    #print(productsSC)
-    print(products)
 
     paypal_dict = {
         'business': settings.PAYPAL_RECEIVER_EMAIL,
         'amount': order.price_total,
+        'item_name': str(order.order_id),
+        'invoice': str(order),
         'currency_code': 'USD',
-        'invoice': str(order.order_id),
-        'handling': '5.00',
         'notify_url': 'http://{}{}'.format(host, reverse('paypal-ipn')),
         'return_url': 'http://{}{}'.format(host, reverse('payment:done')),
         'cancel_return': 'http://{}{}'.format(host, reverse('payment:canceled')),
@@ -60,4 +55,5 @@ def payment_process(request):
     }
 
     form = PayPalPaymentsForm(initial=paypal_dict)
-    return render(request, 'payment/process.html', {'orderitemQuery': orderitemQuery, 'products': products, 'form': form, 'order': order})
+    return render(request, 'payment/process.html', {'orderitemQuery': orderitemQuery, 'products': products, 'form': form,
+                                                    'order': order, 'result': result})
