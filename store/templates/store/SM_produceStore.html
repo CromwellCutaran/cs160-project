@@ -1,4 +1,7 @@
 <!DOCTYPE html>
+
+<script type="text/javascript" src="{{ STATIC_URL }} /static/jquery-3.2.0.min.js"></script>
+
 <!--[if IE 9]> <html class="ie9 no-js" lang="en"> <![endif]-->
 <!--[if (gt IE 9)|!(IE)]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
 <head>
@@ -19,7 +22,6 @@
         </div>
         <div class="grid__item small--one-half medium-up--one-quarter text-right site-header__icons">
             <div class="site-header__icons-wrapper">
-                <!--
                 <select style="position: relative; !important; top: 2px; right: 1300px">
                     <option value="All">All</option>
                     <option value="Fruit">Fruit</option>
@@ -32,7 +34,6 @@
                     <option value="Oat">Oat</option>
                     <option value="Vegatable">Vegatable</option>
                 </select>
-                -->
 
                 <a href="./cart" class="site-header__cart">
                 <svg aria-hidden="true" focusable="false" role="presentation" class="icon icon-cart" viewBox="0 0 37 40"><path d="M36.5 34.8L33.3 8h-5.9C26.7 3.9 23 .8 18.5.8S10.3 3.9 9.6 8H3.7L.5 34.8c-.2 1.5.4 2.4.9 3 .5.5 1.4 1.2 3.1 1.2h28c1.3 0 2.4-.4 3.1-1.3.7-.7 1-1.8.9-2.9zm-18-30c2.2 0 4.1 1.4 4.7 3.2h-9.5c.7-1.9 2.6-3.2 4.8-3.2zM4.5 35l2.8-23h2.2v3c0 1.1.9 2 2 2s2-.9 2-2v-3h10v3c0 1.1.9 2 2 2s2-.9 2-2v-3h2.2l2.8 23h-28z"/></svg>
@@ -68,16 +69,16 @@
             </div>
 
             <div class="grid grid--uniform grid--view-items">
-             {% for s in test %}
+             {% for product in db_products %}                
                 <div class="grid__item grid__item--featured-collections small--one-half medium-up--one-fifth">
                     <div class="grid-view-item">
                         <a class="grid-view-item__link">
-                        <img class="grid-view-item__image" src="{{ s.image_path }}" height="150" width="150">
-                        <div class="h4 grid-view-item__title text-center">{{ s.name }}</div>
+                        <img class="grid-view-item__image" src="{{ product.fields.image_path }}" height="150" width="150">
+                        <div class="h4 grid-view-item__title text-center">{{ product.fields.name }}</div>
                         <div class="grid-view-item__meta">
-                            <span class="product-price__price">Price: ${{ s.price }}</span>
+                            <span class="product-price__price">Price: ${{ product.fields.price }}</span>
                             <div class="product-form__item product-form__item--submit">
-                                <button type="submit" name="add" id="AddToCart-product-template"  class="btn product-form__cart-submit product-form__cart-submit--small">
+                                <button type="submit" name="add" id="AddToCart-product-template"  class="btn product-form__cart-submit product-form__cart-submit--small add_to_cart" value="{{ product }}">
                                     <span id="AddToCartText-product-template">
                                         Add to cart
                                     </span>
@@ -87,10 +88,9 @@
                             </a>
                     </div>
                 </div>
-                {% endfor %}
+            {% endfor %}                
         </div><!-- END content_for_index -->
     </main>
-
     <div id="section-footer" class="main-section">
         <footer class="site-footer" role="contentinfo">
             <div class="page-width">
@@ -107,3 +107,28 @@
   </div>
 </body>
 </html>
+
+<script type="text/javascript">
+$(document).ready(function(){
+    $('.add_to_cart').click(function() {
+        // parse the data
+        var item = $(this).val();
+        var item_json = JSON.parse(item.replace(/'/g, '"'));
+        var item_fields = item_json['fields']
+        console.log(item_json);
+        // debugger;
+        alert("Added 1 " + item_fields['name'] + " to your cart!");
+
+        // make the POST request
+        $.ajax({
+            url: './update_cart/',
+            type: 'POST',
+            data: {'csrfmiddlewaretoken' : '{{ csrf_token }}', 'item' : JSON.stringify(item_fields) },
+            dataType: 'json',
+            success: function() {
+                console.log(data);
+            }
+        });
+    });
+});
+</script>
