@@ -52,7 +52,7 @@ def products(request):
         request.session['cart'] = { }
 
     context = {
-        'db_products' : db_products_json      
+        'db_products' : db_products_json,      
     }
 
     #pdb.set_trace()
@@ -71,7 +71,10 @@ def cart(request):
     for key in gen:
         output += (key + " " + "Quantity: " + str(cart[key][1]) + "<br/>")
 
-    context = { 'cart' : cart }
+    context = { 
+        'cart' : cart,
+        'location' : request.session['store'],
+     }
 
     #pdb.set_trace()
 
