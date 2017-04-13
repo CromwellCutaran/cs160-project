@@ -76,12 +76,13 @@ def post_tracking(request):
             mylist.append(today)
             currentDate=  str(mylist[0])
             currentDay = currentDate.split("-")[2]
-            if int(currentDay) > int(dateUp):
+            if int(currentDay) >= int(dateUp):
                 request.session['progress'] = 100
+            elif int(orderdate) == int(currentDay):
+                request.session['progress'] = 0
             else: 
                 request.session['progress'] = (int(dateUp) - int(currentDay))/(int(dateUp) - int(orderdate)) * 100
                 #pdb.set_trace()
-
             request.session['delivery'] = value + str(dateUp)
             #returns success response to AJAX which recieves the html page requests(includes sessions)
             return render(request, 'store/trackingPage.html')
