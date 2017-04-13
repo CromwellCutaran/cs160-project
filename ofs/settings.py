@@ -25,7 +25,10 @@ SECRET_KEY = 'b9@o@3lhdkzna50^-vx(2$b_1@lhy6=8--d(%eg(q#2ac@@zx6'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    'f1ee3acd.ngrok.io',
+    'localhost'
+]
 
 
 # Application definition
@@ -38,6 +41,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'paypal.standard.ipn',
+    'payment',
+    'orders',
+    'bootstrap3',
 ]
 
 MIDDLEWARE = [
@@ -124,3 +131,8 @@ STATIC_ROOT = 'static/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 MEDIA_URL = '/media/'
+
+#django-paypal settings=
+PAYPAL_TEST = True
+PAYPAL_RECEIVER_EMAIL = 'cs160.business@gmail.com'
+

@@ -5,6 +5,7 @@ from .models import SM_produce, SC_produce
 import pdb
 import ast
 
+
 def index(request):
     return render(request, 'store/index0.html')
 
