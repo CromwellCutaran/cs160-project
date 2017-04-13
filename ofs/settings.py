@@ -137,5 +137,5 @@ MEDIA_URL = '/media/'
 
 #django-paypal settings=
 PAYPAL_TEST = True
-PAYPAL_RECEIVER_EMAIL = 'cs160.business@gmail.com'
+PAYPAL_RECEIVER_EMAIL = 'ofs@gmail.com'
 
