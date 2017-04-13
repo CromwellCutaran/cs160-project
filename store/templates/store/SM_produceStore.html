@@ -97,7 +97,7 @@ $(document).ready(function(){
         var item = $(this).val();
         var item_json = JSON.parse(item.replace(/'/g, '"'));
         var item_fields = item_json['fields']
-        console.log(item_json);
+        // console.log(item_json);
         // debugger;
         alert("Added 1 " + item_fields['name'] + " to your cart!");
 

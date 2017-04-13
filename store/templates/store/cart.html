@@ -60,19 +60,19 @@
                         <div class="grid-view-item__meta">
                             <span class="product-price__price">Price: ${{ value.0.price }}</span>
                             <span class="product-price__price">Quantity: {{ value.1 }}</span>
-                            <div class="product-form__item product-form__item--submit">
-                                <button type="submit" name="add" id="AddToCart-product-template"  class="btn product-form__cart-submit product-form__cart-submit--small add_to_cart" value="{{ key }}">
+                            <!-- <div class="product-form__item product-form__item--submit">
+                                <button type="submit" name="add" id="AddToCart-product-template"  class="btn product-form__cart-submit product-form__cart-submit--small remove_from_cart" value="{{ key }}">
                                     <span id="AddToCartText-product-template">
-                                        Change quantity
+                                        Remove from cart
                                     </span>
                                 </button>
-                            </div>
+                            </div> -->
                             <!-- start of the quantity selector -->
-                            <label class="visually-hidden" for="updates">Quantity</label>
+                            <!-- <label class="visually-hidden" for="updates">Quantity</label> -->
                             <!-- doing the medium-up--one-half is the css that changes the size of the quantity selector, so if you want to change the size
                               of that later, there are other css in my productStyle.css that has things such as medium-up--one-fourth...and so on that you can play with-->
                             <!-- value should be the number that changes when a user increments the amount of a product the user wants -->
-                            <input class="quantity-selector text-center medium-up--one-half" type="number" name="updates[]" id="updates" value="1" min="0">
+                            <!-- <input class="quantity-selector text-center medium-up--one-half" type="number" name="updates[]" id="updates" value="{{ value.1 }}" min="0"> -->
                         <!-- end of quantity selector -->
                         </div>
                             </a>
@@ -119,3 +119,26 @@
   </div>
 </body>
 </html>
+
+<script type="text/javascript">
+
+$(document).ready(function(){
+    $('.remove_from_cart').click(function() {
+        var item = $(this).val();
+        alert("Removed " + item + " from cart");
+
+        $.ajax({
+            url: './remove_from_cart/',
+            type: 'POST',
+            data: {'csrfmiddlewaretoken' : '{{ csrf_token }}', 'item' : item},
+            dataType: 'json',
+            success: function() {
+            }
+        });
+
+        // window.location.replace("./cart");
+        window.location.reload();
+    });
+});
+
+</script>

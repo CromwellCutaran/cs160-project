@@ -117,6 +117,23 @@ def update_cart(request):
 
     return HttpResponse("Cart updated")
 
+def remove_from_cart(request):
+
+    if not request.is_ajax() or not request.method=='POST':
+        return HttpResponseNotAllowed(['POST'])
+
+    item = request.POST['item']
+
+    #pdb.set_trace()
+    cart = request.session['cart']
+
+    cart.pop(item, None)
+
+    request.session['cart']
+    #pdb.set_trace()
+
+    return HttpResponse("Cart updated")
+
 def track(request):
     #context is dixtionary passed through the html page
     context = {
