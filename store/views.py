@@ -80,7 +80,7 @@ def post_tracking(request):
                 request.session['progress'] = 100
             else: 
                 request.session['progress'] = (int(dateUp) - int(currentDay))/(int(dateUp) - int(orderdate)) * 100
-                pdb.set_trace()
+                #pdb.set_trace()
 
             request.session['delivery'] = value + str(dateUp)
             #returns success response to AJAX which recieves the html page requests(includes sessions)
