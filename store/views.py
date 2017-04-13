@@ -37,7 +37,7 @@ def products(request):
         'db_products' : db_products_json      
     }
 
-    pdb.set_trace()
+    #pdb.set_trace()
 
     return render(request, "store/" + location, context)
 
