@@ -53,7 +53,7 @@ def post_tracking(request):
        # return HttpResponse("SERVER: "+ tracking_number)
         try:
             order = Order.objects.get(order_id=tracking_number)
-        
+            
             request.session['order_id'] = order.order_id
             request.session['fname'] = order.first_name
             request.session['lname'] = order.last_name
@@ -72,7 +72,7 @@ def post_tracking(request):
             value = delTemp[0:8]
             dateUp = delTemp[8:10]
             dateUp = int(dateUp) + 2
-            pdb.set_trace()
+           # pdb.set_trace()
 
             request.session['delivery'] = value + str(dateUp)
 
