@@ -12,7 +12,7 @@ from django.views.decorators.http import require_GET
 from orders.models import OrderItems #refernce the database
 from orders.models import Order
 import pdb
-import simplejson as json
+#import simplejson as json
 from django.core import serializers
 import ast
 import json as js

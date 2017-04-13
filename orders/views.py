@@ -8,7 +8,7 @@ import jsonpickle
 from orders.models import Order
 from .models import OrderItems
 from .forms import OrderForm
-#from store.models import SC_produce, SM_produce
+from store.models import SC_produce, SM_produce
 
 
 #def orders(request):
