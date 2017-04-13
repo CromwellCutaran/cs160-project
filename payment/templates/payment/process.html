@@ -5,7 +5,6 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" href="/static/bootstrap.min.css">
-    <link rel="stylesheet" type="text/css" href="/static/orders.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <link href="/static/productStyle.css" rel="stylesheet" type="text/css" media="all" />
 </head>
@@ -41,28 +40,28 @@
                     </div>
                 <br>
                     <div>Order Items:</div>
-                    <div class="col-sm-4 col-sm-offset-4">
+                    <div class="col-sm-6 col-sm-offset-3">
                     <div class="col-xs-4 text-center">Item
-                    {% for item1, quan, pricetotal in result %}
-                        <div class="row">{{ item1.name }}</div>
+                    {% for item1, quan, pricetotal, id in result %}
+                        <div class="row">{{ item1 }}</div>
                     {% endfor %}
                     </div>
                     <div class="col-xs-4 text-center">Quantity
-                    {% for item1, quan, pricetotal in result %}
+                    {% for item1, quan, pricetotal, id in result %}
                         <div class="row">{{ quan }}</div>
                     {% endfor %}
                     </div>
                     <div class="col-xs-4 text-center">Price
-                        {% for item1, quan, pricetotal in result %}
+                        {% for item1, quan, pricetotal, id in result %}
                         <div class="row">{{ pricetotal }}</div>
                         {% endfor %}
                     </div>
+                        <div class="row">Total = ${{ total }}</div>
                     <br>
                     <br>
                     {% block content %}
                     <h4>Pay using Paypal</h4>
                     {{ form.render }}
-                        <p> hey </p>
                     {% endblock %}
                 </div>
         </div>

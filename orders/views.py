@@ -4,52 +4,37 @@ from django.http import HttpResponse
 from django.urls import reverse
 from django.urls import reverse_lazy
 import jsonpickle
-
 from orders.models import Order
 from .models import OrderItems
 from .forms import OrderForm
 from store.models import SC_produce, SM_produce
 
-
-#def orders(request):
-#    return render(request, 'orders/orders.html')
-
 def orders(request):
-    #test items and test quantities
-    itemid1 = 1
-    itemid2 = 2
-    itemid3 = 3
-    quan1 = 4
-    quan2 = 1
-    quan3 = 2
-    #request.session from cart
-    productsSC = SC_produce.objects.all()
-    items = [itemid1, itemid2, itemid3]
-    itemquery = []
-    quantity = [quan1, quan2, quan3]
-    itemprices = []
-    for item in items:
-        itemquery.extend(productsSC.filter(id=item))
-    print(itemquery)
-    for item, quan in zip(itemquery,quantity):
-        itemprice = item.price
-        itemprices.append(itemprice * quan)
-    #print(itemprices)
-    combined = zip(itemquery, quantity, itemprices)
-    total = 0
-    for prices in itemprices:
-        total += prices
+    store = request.session.get('store')
+    cart = request.session.get('cart')
 
-    #print(total)
+    item = []
+    itemQuantity = []
+    itemPrice = []
+    for key, value in cart.items():
+        item.append(value[0]['name'])
+        itemPrice.append(round(float(value[0]['price']) * value[1], 2))
+        itemQuantity.append(value[1])
+    itemID = []
+    if store == 'SC':
+        for items in item:
+            itemID.append(SC_produce.objects.get(name=items).id)
+    else:
+        for items in item:
+            itemID.append(SM_produce.objects.get(name=items).id)
+    combined = zip(item, itemQuantity, itemPrice, itemID)
+    total = 0
+    for prices in itemPrice:
+        total += prices
+    roundedTotal = round(total, 2)
     li_result = list(combined)
     result = jsonpickle.encode(li_result)
-
-    #print(li_result)
     request.session['result'] = result
-
-
-
-
 
     form = OrderForm(request.POST or None)
     if form.is_valid():
@@ -57,15 +42,16 @@ def orders(request):
         instance.save()
         orderObject = Order.objects.get(order_id=instance.order_id)
         orderObject.price_total = total
+        if store == 'SC':
+            orderObject.location = Order.SC
+        else:
+            orderObject.location = Order.SM
+
         orderObject.save()
-        #print(instance.order_id)
         request.session['order_id'] = instance.order_id
 
-
-        OrderItem1 = OrderItems.objects.create(order_id=instance.order_id, item_id=itemid1, quantity=quan1)
-        OrderItem2 = OrderItems.objects.create(order_id=instance.order_id, item_id=itemid2, quantity=quan2)
-        OrderItem = OrderItems.objects.create(order_id=instance.order_id, item_id=itemid3, quantity=quan3)
-
+        for item, quan, price, id in li_result:
+            OrderItems.objects.create(order_id=instance.order_id, item_id=id, quantity=quan)
 
         return HttpResponseRedirect(reverse('payment:process'))
 
@@ -75,10 +61,4 @@ def orders(request):
         "form": form,
     }
 
-
-
-
-
-
-
-    return render(request, "orders/orders.html", {'myform': form, 'li_result':li_result, "total": total})
+    return render(request, "orders/orders.html", {'myform': form, 'li_result':li_result, "roundedTotal": roundedTotal})
