@@ -55,34 +55,5 @@ function sendTracking(e)
 }
 
 
-//setting tracking page values 
-function setTrackingPageValues(json)
-{
-    console.log("setting values for tracking page")
-    var data = JSON.parse(json);
-    $("#name").val(data['first_name'] + ' ' + data['last_name']);
-    $("#data-purchased").val(data['timestamp']);
-    $("#store-location").val(data['store_location']);
-    $("#shippingAddr").val( data['address'] + ' ' + data['city'] + ' ' + data['state'] + ' ' + data['zipcode']);
-    $("#conf-email").val(data['email']);
-    
-    $("#amt-paid").val(data['price']);
-    
-    console.log(" expected time: ",$("#exp-arrival").val());
-
-   /* name.innerText = data['first_name'] + ' ' + data['last_name'];
-    date_purchased.innerText = data['timestamp']
-    store_location.innerText = date['store_location']
-    shippingAddr.innerText = data['address'] + ' ' + data['city'] + ' ' + data['state'] + ' ' + data['zipcode']
-    conf_email.innerText = data['email']
-    //exp_arrival.data = data['']
-    amt_paid.innerText = data['price']
-*/
-    window.location.href = "track";
-
-
-}
-
-
 
 

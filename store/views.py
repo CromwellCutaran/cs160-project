@@ -16,11 +16,6 @@ from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect
 
 
-
-
-
-
-
 def index(request):
     #pdb.set_trace()
     return render(request, 'store/index0.html')
@@ -57,40 +52,8 @@ def post_tracking(request):
 
        # return HttpResponse("SERVER: "+ tracking_number)
         try:
-            #order = list(Order.objects.get(order_id=tracking_number))
-            #db_order_json = ast.literal_eval(serializers.serialize('json', order))
             order = Order.objects.get(order_id=tracking_number)
-           
-            data['order_id'] = order.order_id
-            data['fname'] = order.first_name
-            data['lname'] = order.last_name
-            data['addr'] = order.address
-            data['city'] = order.city
-            data['state'] = order.state
-            data['loc'] = order.location
-            data['price'] = order.price_total
-            data['timestamp'] = str(order.timestamp)
-            data['zip'] = order.zipcode
-            data['state'] = order.state
-            data['email'] = order.email
-            data['delivery'] = str(order.timestamp)
-            json_data = json.dumps(data)
-            jsonTemp = json_data
-           # pdb.set_trace()
-            '''
-            context = {'fname': order.first_name,
-            'lname': order.last_name,
-            'timestamp': str(order.timestamp),
-            'loc' : order.location,
-            'addr' : order.address,
-            'city' : order.city,
-            'state' : order.state,
-            'zip' : order.zipcode,
-            'email': order.email,
-            'delivery': str(order.timestamp),
-            'price': order.price,
-            }
-            '''
+        
             request.session['order_id'] = order.order_id
             request.session['fname'] = order.first_name
             request.session['lname'] = order.last_name
@@ -99,14 +62,21 @@ def post_tracking(request):
             request.session['state'] = order.state
             request.session['loc'] = order.location
             request.session['price'] = str(order.price_total)
-            request.session['timestamp'] = str(order.timestamp)
+            timeTemp = str(order.timestamp).split(".")[0]
+           # pdb.set_trace()
+            request.session['timestamp'] = timeTemp
             request.session['zip'] = order.zipcode
             request.session['state'] = order.state
             request.session['email'] = order.email
-            request.session['delivery'] = str(order.timestamp)
+            delTemp = timeTemp.split(" ")[0]
+            value = delTemp[0:8]
+            dateUp = delTemp[8:10]
+            dateUp = int(dateUp) + 2
+            pdb.set_trace()
+
+            request.session['delivery'] = value + str(dateUp)
 
             return render(request, 'store/trackingPage.html', data)
         except Order.DoesNotExist:
             raise Http404("Order does not exist")
-
 
