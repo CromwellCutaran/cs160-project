@@ -1,0 +1,138 @@
+body{
+  background-image:url(http://i.imgur.com/smoyLE4.jpg);
+  background-size: cover;
+  background-position: center;
+  font-family: Lato;
+  color: white;
+}
+
+html{
+  height: 100%;
+}
+
+#content {
+  text-align:center;
+  padding-top: 20%;
+  text-shadow: 0px 4px 3px rgba(0,0,0,0.4),
+               0px 8px 13px rgba(0,0,0,0.1),
+               0px 18px 23px rgba(0,0,0,0.1);
+}
+
+#forms {
+  text-align:center;
+  text-shadow: 0px 4px 3px rgba(0,0,0,0.4),
+               0px 8px 13px rgba(0,0,0,0.1),
+               0px 18px 23px rgba(0,0,0,0.1);
+}
+
+#submitButton{
+  border: 0 none;
+}
+
+.panel-default{
+  width: 40%;
+  float:none;
+  margin-left:auto;
+  margin-right:auto;
+  background: rgba(117, 116, 114, 0.35);
+  padding-top: 30px;
+  padding-bottom: 50px;
+  border-color: rgba(101, 212, 136, 0)
+}
+
+h1{
+  font-weight: 700;
+  font-size: 5em;
+}
+
+
+hr{
+  width: 500px;
+  border-top: 1px solid #f8f8f8;
+  border-bottom: 1px solid #rgba(0,0,0,0.2);
+}
+
+#location {
+    padding: 14px 20px;
+    border: 0 none;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-right:10px;
+    margin-left:10px;
+}
+
+#trackingNumberInput{
+  width: 180px;
+}
+
+.btn:focus, .btn:active:focus, .btn.active:focus {
+    outline: 0 none;
+}
+
+.btn-primary {
+    background: #33cc5e;
+    color: #ffffff;
+    width: 11.2em;
+    text-align:center;
+}
+
+.btn-track{
+    background: #33cc5e;
+    color: #ffffff;
+    text-align:center;
+    height: 34px;
+
+}
+
+.btn-primary:hover, .btn-primary:focus, .btn-primary:active, .btn-primary.active, .open > .dropdown-toggle.btn-primary, .btn-track:hover, .btn-track:focus, .btn-track:active, .btn-track.active, .open > .dropdown-toggle.btn-track {
+    background: #2cb051;
+}
+
+.btn-primary:active, .btn-primary.active, .btn-track:active, .btn-track.active {
+    background: #009939;
+    box-shadow: none;
+}
+
+.btn-primary:active:focus, .btn-primary:active:focus{
+    background: #009939;
+    box-shadow: none;
+}
+
+
+
+
+
+
+.one{
+  position:absolute;
+  margin-top:-10px;
+  z-index:1;
+  height:40px;
+  width:40px;
+  border-radius:25px;
+  
+}
+.one{
+  left:70%;
+}
+
+.primary-color{
+  background-color:#4989bd;
+}
+.success-color{
+  background-color:#5cb85c;
+}
+.danger-color{
+  background-color:#d9534f;
+}
+.warning-color{
+  background-color:#f0ad4e;
+}
+.info-color{
+  background-color:#5bc0de;
+}
+.no-color{
+  background-color:inherit;
+}
+
