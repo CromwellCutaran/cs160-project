@@ -67,6 +67,13 @@
                                     </span>
                                 </button>
                             </div>
+                            <!-- start of the quantity selector -->
+                            <label class="visually-hidden" for="updates">Quantity</label>
+                            <!-- doing the medium-up--one-half is the css that changes the size of the quantity selector, so if you want to change the size
+                              of that later, there are other css in my productStyle.css that has things such as medium-up--one-fourth...and so on that you can play with-->
+                            <!-- value should be the number that changes when a user increments the amount of a product the user wants -->
+                            <input class="quantity-selector text-center medium-up--one-half" type="number" name="updates[]" id="updates" value="1" min="0">
+                        <!-- end of quantity selector -->
                         </div>
                             </a>
                     </div>
@@ -83,6 +90,26 @@
                 </div>
                 <div class="grid grid--no-gutters">
                     <div class="grid__item text-center"></div>
+        <div id="cart__footer" class="main-section">
+        <footer class="site-footer" role="contentinfo">
+            <div class="page-width">
+                <div class="grid grid--no-gutters">
+                    <div class="grid__item text-right">
+                        <!-- start of new code -->
+                        <div class="grid__item text-center medium-up--one-half medium-up--text-right">
+                                <span class="cart__subtotal-title h3">Subtotal: </span>
+                                <span class="h3">$4.44</span>
+                        </div>
+                        <p>
+                            <!-- Can take this out if you do not want a button that goes back to product page -->
+                            <a class="btn btn--secondary" href="/">Continue shopping</a>
+                        </p>
+                        <p>
+                            <button type="submit" name="checkout" class="btn">Check Out</button>
+                        </p>
+                        <!-- end of new code -->
+
+                    </div>
                 </div>
             </div>
         </footer>
