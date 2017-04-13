@@ -35,7 +35,6 @@ def orders(request):
     li_result = list(combined)
     result = jsonpickle.encode(li_result)
     request.session['result'] = result
-    print(store)
 
     form = OrderForm(request.POST or None)
     if form.is_valid():
