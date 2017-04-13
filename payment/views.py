@@ -19,7 +19,7 @@ def payment_done(request):
     order.save()
     request.session.flush()
 
-    return render(request, 'payment/done.html')
+    return render(request, 'payment/done.html', {'order': order_idm})
 
 
 
