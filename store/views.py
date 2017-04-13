@@ -20,10 +20,10 @@ def products(request):
 
     if location_id == 'sc':
         location = 'SC_produceStore.html'
-        db_products = SC_produce.objects.all()
+        db_products = SC_produce.objects.all().order_by("name")
     else:
         location = 'SM_produceStore.html'
-        db_products = SM_produce.objects.all()
+        db_products = SM_produce.objects.all().order_by("name")
 
     request.session['store'] = location_id
     db_products_json = ast.literal_eval(serializers.serialize('json', db_products))
