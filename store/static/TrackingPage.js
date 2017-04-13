@@ -1,6 +1,6 @@
 
 
-//index page variables
+//index page variables  (create element object)
 var trackingNumber = document.getElementById("trackingNumberInput")
 var clickButton  = document.getElementById("submitButton")
 
@@ -19,11 +19,11 @@ function sendTracking(e)
 	{
 		var trackNumber = trackingNumber.value;
 
-   $.ajax({
-        url : "./post_tracking", // the endpoint
+   $.ajax({ //This is the dictionary
+        url : "./post_tracking", // the endpoint (where to send the data and goes to url the to views)
         type : "GET", // http method
-        data : { tNumber : trackNumber,
-            csrfmiddlewaretoken: '{{ csrf_token }}'
+        data : { tNumber : trackNumber, //what we sending 
+            csrfmiddlewaretoken: '{{ csrf_token }}' //bypass secuirty permission
          }, // data sent with the post request
 
         // handle a successful response
@@ -31,7 +31,7 @@ function sendTracking(e)
             //$('#trackingNumberInput').val(''); // remove the value from the input
             console.log("tracking number sent back by server", json); // log the returned json to the console
           //  setTrackingPageValues(json);
-          window.location.href = 'track';
+          window.location.href = 'track'; //ocnce successfully data is sent then track is called in URL to Views
             console.log("success"); // another sanity check
         
         },
@@ -51,6 +51,7 @@ function sendTracking(e)
 	}
 	
 }
+
 
 
 
