@@ -16,6 +16,7 @@ import pdb
 from django.core import serializers
 import ast
 import json as js
+import datetime
 from django.template import loader
 from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect
@@ -129,6 +130,7 @@ def track(request):
     'state' : request.session.get('state'),
     'email' : request.session.get('email'),
     'delivery' : request.session.get('delivery'),
+    'progress_bar' : request.session.get('progress')
     }
     #request is the get 
    #pdb.set_trace()  render takes in template with what it will replace (context)
@@ -158,9 +160,20 @@ def post_tracking(request):
             request.session['email'] = order.email
             delTemp = timeTemp.split(" ")[0]
             value = delTemp[0:8]
-            dateUp = delTemp[8:10]
-            dateUp = int(dateUp) + 2
+            orderdate = delTemp[8:10]
+            dateUp = int(orderdate) + 2
             # pdb.set_trace()
+
+            mylist = []
+            today = datetime.date.today()
+            mylist.append(today)
+            currentDate=  str(mylist[0])
+            currentDay = currentDate.split("-")[2]
+            if int(currentDay) > int(dateUp):
+                request.session['progress'] = 100
+            else: 
+                request.session['progress'] = (int(dateUp) - int(currentDay))/(int(dateUp) - int(orderdate)) * 100
+                #pdb.set_trace()
 
             request.session['delivery'] = value + str(dateUp)
             #returns success response to AJAX which recieves the html page requests(includes sessions)
