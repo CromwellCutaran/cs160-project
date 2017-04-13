@@ -14,14 +14,11 @@ clickButton.addEventListener('click', sendTracking)
 
 function sendTracking(e)
 {
-	e.preventDefault();
+	e.preventDefault(); // prevent auto refresh maybe 
 	if(trackingNumber.value != "")
 	{
 		var trackNumber = trackingNumber.value;
 
-	console.log("in sendTracking " + trackingNumber.value);
-    //window.location.href = "track";
-	console.log("sending trackNumber to server....");
    $.ajax({
         url : "./post_tracking", // the endpoint
         type : "GET", // http method
@@ -50,6 +47,7 @@ function sendTracking(e)
 	else 
 	{	
 	console.log("no input");
+    alert("Please enter Tracking Number for your Order")
 	}
 	
 }
