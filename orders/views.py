@@ -35,6 +35,7 @@ def orders(request):
     li_result = list(combined)
     result = jsonpickle.encode(li_result)
     request.session['result'] = result
+    print(store)
 
     form = OrderForm(request.POST or None)
     if form.is_valid():
@@ -42,13 +43,14 @@ def orders(request):
         instance.save()
         orderObject = Order.objects.get(order_id=instance.order_id)
         orderObject.price_total = total
-        if store == 'SC':
+        if store == 'sc':
             orderObject.location = Order.SC
         else:
             orderObject.location = Order.SM
 
         orderObject.save()
         request.session['order_id'] = instance.order_id
+
 
         for item, quan, price, id in li_result:
             OrderItems.objects.create(order_id=instance.order_id, item_id=id, quantity=quan)

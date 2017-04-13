@@ -1,4 +1,3 @@
-
 <!--DOCTYPE HTML -->
 <html>
 <head>
@@ -10,11 +9,6 @@
 </head>
 
 <body class="template-index">
-{% load bootstrap3 %}
-
-
-
-
   <div class="page-container" id="PageContainer">
     <main class="main-content" id="MainContent" role="main">
       <div id="label-pic" class="main-section index-section index-section--flush">
@@ -32,45 +26,22 @@
     <div class="col-sm-12">
             <div class="panel panel-default">
                 <div class="panel-body text-center">
-                <h1><i class="fa fa-check-circle" aria-hidden="true"></i></i> Confirmation Page<hr></h1>
+                Payment canceled!
 
-                    <div>Name : {{ order.first_name }} {{ order.last_name }}</div>
-                    <div>Address : {{ order.address }} {{ order.city }} {{ order.state }} {{ order.zipcode }}</div>
-                    <div>Email : {{ order.email }}</div>
-                    <div>Store : {{ storedisplay }}</div>
-                <br>
-                    <div>Order Items:</div>
-                    <div class="col-sm-6 col-sm-offset-3">
-                    <div class="col-xs-4 text-center">Item
-                    {% for item1, quan, pricetotal, id in result %}
-                        <div class="row">{{ item1 }}</div>
-                    {% endfor %}
-                    </div>
-                    <div class="col-xs-4 text-center">Quantity
-                    {% for item1, quan, pricetotal, id in result %}
-                        <div class="row">{{ quan }}</div>
-                    {% endfor %}
-                    </div>
-                    <div class="col-xs-4 text-center">Price
-                        {% for item1, quan, pricetotal, id in result %}
-                        <div class="row">{{ pricetotal }}</div>
-                        {% endfor %}
-                    </div>
-                        <div class="row">Total = ${{ total }}</div>
-                    <br>
-                    <br>
-                    {% block content %}
-                    <h4>Pay using Paypal</h4>
-                    {{ form.render }}
-                    {% endblock %}
+                <script type="text/javascript">
+                function Redirect()
+                {
+                window.location="/store/";
+                }
+                document.write("You will be redirected to the OFS landing page in 5 seconds");
+                setTimeout('Redirect()', 5000);
+                </script>
+
                 </div>
         </div>
       </div>
     </div>
 </div>
-
-
-
 
     <div id="section-footer" class="main-section">
         <footer class="site-footer" role="contentinfo">
