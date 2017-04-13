@@ -18,22 +18,24 @@ function sendTracking(e)
 	if(trackingNumber.value != "")
 	{
 		var trackNumber = trackingNumber.value;
-    
+
+	console.log("in sendTracking " + trackingNumber.value);
+    //window.location.href = "track";
 	console.log("sending trackNumber to server....");
    $.ajax({
-        url : "./track", // the endpoint
+        url : "./post_tracking", // the endpoint
         type : "GET", // http method
-        data : { 'tNumber' : trackNumber,
-            'csrfmiddlewaretoken': '{{ csrf_token }}'
+        data : { tNumber : trackNumber,
+            csrfmiddlewaretoken: '{{ csrf_token }}'
          }, // data sent with the post request
 
         // handle a successful response
         success : function(json) {
             //$('#trackingNumberInput').val(''); // remove the value from the input
             console.log("tracking number sent back by server", json); // log the returned json to the console
-            //setTrackingPageValues(trackNumber);
+          //  setTrackingPageValues(json);
+          window.location.href = 'track';
             console.log("success"); // another sanity check
-             //window.location.href = "track";
         
         },
 
@@ -44,8 +46,6 @@ function sendTracking(e)
         }
         
     });
-    //getData(trackNumber);
-
 	}
 	else 
 	{	

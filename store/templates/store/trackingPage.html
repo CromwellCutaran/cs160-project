@@ -62,24 +62,24 @@
 						Shipping Address: 
 					</dt>
 					<dd id="shippingAddr"></dd>
-
+					{{addr}} {{city}} {{ state }} {{zip}}
 					<dt>
 						Confirmation sent to:
 					</dt>
 					<dd>
-						<span id="conf-email"></span> 
+						{{email}}
 					</dd>
 
 					<dt>
 						Expected Delivery by:
 					</dt>
-					<dd id="exp-arrival">2 days</dd>
-
+					<dd id="exp-arrival">{{delivery}}</dd>
+						
 					<dt>
 						Total Amount paid:
 					</dt>
 					<dd>
-						<span id="amt-paid"></span> 
+						{{price}}
 					</dd>
 
 				</dl>
@@ -112,6 +112,5 @@
 
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVBX8rSqqKiVZJoMJ2t8u0tgENX_Al7Co&callback=myMap"></script>
 
-<script src="../../static/TrackingPage2.js"></script>
 </body>
 </html>
