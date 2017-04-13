@@ -1,3 +1,5 @@
+import hashlib
+
 from django.http import HttpResponseForbidden
 from django.shortcuts import render, get_object_or_404
 from paypal.standard.models import ST_PP_COMPLETED
@@ -63,7 +65,7 @@ def payment_process(request):
         'custom': order.order_id,
         'amount': order.price_total,
         'item_name': str(order.order_id),
-        'invoice': str(order.order_id),
+        'invoice': hashlib.sha1(str(order.order_id).encode('utf-8')).hexdigest(),
         'currency_code': 'USD',
         'notify_url': 'http://{}{}'.format(host, reverse('paypal-ipn')),
         'return_url': 'http://{}{}'.format(host, reverse('payment:done')),
