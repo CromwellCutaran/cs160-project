@@ -139,3 +139,5 @@ MEDIA_URL = '/media/'
 PAYPAL_TEST = True
 PAYPAL_RECEIVER_EMAIL = 'ofs@gmail.com'
 
+# Save every session request
+SESSION_SAVE_EVERY_REQUEST = True

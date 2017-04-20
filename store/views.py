@@ -117,20 +117,32 @@ def update_cart(request):
 
     return HttpResponse("Cart updated")
 
-def remove_from_cart(request):
+def decrement_in_cart(request):
 
     if not request.is_ajax() or not request.method=='POST':
         return HttpResponseNotAllowed(['POST'])
 
     item = request.POST['item']
 
-    #pdb.set_trace()
     cart = request.session['cart']
 
-    cart.pop(item, None)
+    cart[item][1] = cart[item][1] - 1
 
-    request.session['cart']
-    #pdb.set_trace()
+    if cart[item][1] == 0: 
+        cart.pop(item, None)
+
+    return HttpResponse("Cart updated")
+
+def increment_in_cart(request):
+
+    if not request.is_ajax() or not request.method=='POST':
+        return HttpResponseNotAllowed(['POST'])
+
+    item = request.POST['item']
+
+    cart = request.session['cart']
+
+    cart[item][1] = cart[item][1] + 1
 
     return HttpResponse("Cart updated")
 

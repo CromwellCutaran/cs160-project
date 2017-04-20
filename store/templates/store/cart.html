@@ -74,9 +74,19 @@
                             <!-- value should be the number that changes when a user increments the amount of a product the user wants -->
                             <!-- <input class="quantity-selector text-center medium-up--one-half" type="number" name="updates[]" id="updates" value="{{ value.1 }}" min="0"> -->
                         <!-- end of quantity selector -->
+                            <!-- cart button code start -->
+                            <div class=list--inline style="text-align: center">
+                                <button type="submit" name="decrement_in_cart" class="btn one-half decrement_in_cart" value="{{ key }}">
+                                    <span>-</span>
+                                </button>
+                                <button type="submit" name="increment_in_cart" class="btn one-half increment_in_cart" value="{{ key }}">
+                                    <span>+</span>
+                                </button>
+                            </div>
                         </div>
                             </a>
                     </div>
+                    <!-- cart button code start -->
                 </div>
             {% endfor %}                
         </div><!-- END content_for_index -->
@@ -123,20 +133,35 @@
 <script type="text/javascript">
 
 $(document).ready(function(){
-    $('.remove_from_cart').click(function() {
+    $('.decrement_in_cart').click(function() {
         var item = $(this).val();
-        alert("Removed " + item + " from cart");
+        // alert("Removed 1 " + item + " from cart");
 
         $.ajax({
-            url: './remove_from_cart/',
+            url: './decrement_in_cart/',
+            type: 'POST',
+            data: {'csrfmiddlewaretoken' : '{{ csrf_token }}', 'item' : item},
+            dataType: 'json',
+            success: function() {                
+            }
+        });
+        window.location.reload();
+    });
+});
+
+$(document).ready(function(){
+    $('.increment_in_cart').click(function() {
+        var item = $(this).val();
+        // alert("Added 1 " + item + " from cart");
+
+        $.ajax({
+            url: './increment_in_cart/',
             type: 'POST',
             data: {'csrfmiddlewaretoken' : '{{ csrf_token }}', 'item' : item},
             dataType: 'json',
             success: function() {
             }
         });
-
-        // window.location.replace("./cart");
         window.location.reload();
     });
 });

@@ -8,6 +8,7 @@ urlpatterns = [
     url(r'^products', views.products, name='products'),
     url(r'^cart', views.cart, name='cart'),
     url(r'^update_cart', views.update_cart, name='update_cart'),
-    url(r'^remove_from_cart', views.remove_from_cart, name='remove_from_cart'),
+    url(r'^decrement_in_cart', views.decrement_in_cart, name='decrement_in_cart'),
+    url(r'^increment_in_cart', views.increment_in_cart, name='increment_in_cart'),
     url(r'^tracking', views.tracking, name='tracking')
 ]
