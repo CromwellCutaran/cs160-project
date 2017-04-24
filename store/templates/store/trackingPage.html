@@ -91,7 +91,14 @@
 					<dd class="text-center">
 						{{price}}
 					</dd>
-
+					<dt>
+						Items Bought:
+					</dt>
+					{% for key,value in items.items %}      
+					<dd class="text-center">
+						 {{value}}  {{key}}
+					</dd>
+					 {% endfor %}                
 				</dl>
 			</div>
 			<div class="col-lg-9"> <!-- makes it responsive by putting  in div container -->
