@@ -10,7 +10,7 @@ var clickButton  = document.getElementById("submitButton")
 var data = null;
 if(trackingNumber)
 {
-clickButton.addEventListener('click', sendTracking)
+    clickButton.addEventListener('click', sendTracking)
 }
 
 function sendTracking(e)
@@ -34,7 +34,7 @@ function sendTracking(e)
           //  setTrackingPageValues(json);
           window.location.href = 'track'; //ocnce successfully data is sent then track is called in URL to Views
             console.log("success"); // another sanity check
-        
+
         },
 
         // handle a non-successful response
@@ -44,119 +44,123 @@ function sendTracking(e)
         }
         
     });
-	}
-	else 
-	{	
+}
+else 
+{	
 	console.log("no input");
     alert("Please enter Tracking Number for your Order")
-	}
-	
+}
+
 }
 //----------------------------------------------------------------------------
  //----------------------------------------------------------------------------
  //----------------------------------------------------------------------------
  
 
- var polyline = null;
-var addressLoc =  null;
-var storeLoc = null;
-var map;
+ var addressLoc =  null;
+ var storeLoc = null;
+ var timestamp = null;
+ var map;
 
-function initMap() {
+ function initMap() {
   var directionsService = new google.maps.DirectionsService;
   var directionsDisplay = new google.maps.DirectionsRenderer;
 
-map = new google.maps.Map(document.getElementById("map"));
-    polyline = new google.maps.Polyline({
-    path: [],
-    strokeColor: '#FF0000',
-    strokeWeight: 3
-    });
-
-  /* map = new google.maps.Map(document.getElementById('map'), {
-    zoom: 7,
-    center: {lat: 37.56,  lng: -122.32} //santa clara 
-  });*/
-  directionsDisplay.setMap(map);
-
+  map = new google.maps.Map(document.getElementById('map'), mapOps = {
+      zoom: 7,
+      mapTypeId: google.maps.MapTypeId.ROADMAP,
+      center: {lat: 37.56,  lng: -122.32} //santa clara
+  });
   
-  //console.log("in initMap");
-    calculateAndDisplayRoute(directionsService, directionsDisplay);
-    calMidPoint(directionsService, directionsDisplay, map);
-
-    
+  directionsDisplay.setMap(map);
+  calculateAndDisplayRoute(directionsService, directionsDisplay); 
 }
+
+
 
 function calculateAndDisplayRoute(directionsService, directionsDisplay) {
-   // console.log("in calculateAndDisplayRoute")
-  directionsService.route({
-    origin: $('#storeLoc').val() ,
+var context = {
+    origin: $('#storeLoc').val(),
     destination: $('#address').val(),
     travelMode: 'DRIVING'
-  }, function(response, status) {
+};
+
+directionsService.route(context, function(response, status)
+{
     if (status === 'OK') {
-      directionsDisplay.setDirections(response);
-    } else {
-      window.alert('Directions request failed due to ' + status);
-    }
-  });
-}
-
-
-function calMidPoint(directionsService, directionsDisplay, map)
-{
-    var geocoder = new google.maps.Geocoder();
-    console.log("calculating calMidPoint");
-    var context = {
-        origin: $('#storeLoc').val(),
-        destination: $('#address').val(),
-        travelMode: 'DRIVING'
-    };
-       polyline.setPath([]);
-    directionsService.route(context, function(response, status)
-    {
-    //var bounds = new google.maps.LatLngBounds();
-        startLocation = new Object();
-        endLocation = new Object();
+       
         directionsDisplay.setDirections(response);
-        var route = response.routes[0];
-       // console.log("route stuff", route);
-        var latX = route.legs[0].start_location.lat();
-        var lngX = route.legs[0].start_location.lng();
-        var latY =  route.legs[0].end_location.lat();
-        var lngY =  route.legs[0].end_location.lng();
-    var mid_lat = (latX + latY)/2;
- 
-    var  mid_lon = (latY + lngY)/2;
-drawMarker(geocoder, map, mid_lat, mid_lon - 79.97);
-
-    });
+        // For each route, display summary information.
+        var legs = response.routes[0].legs;
+         marker = drawMarker(legs[0].start_location);
 
 
 
-    
 
+         var splitTime = timestamp.split(" ")
+         console.log(splitTime)
+         var dayOfPurch = splitTime[0].split("-")[2] //date of pruchase
+        
+        var today = new Date();
+        var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+       var todayDay = date.split('-')[2] //todays date
+       
+       var stepsLength = legs[0].steps.length
+       
+       var stepper = null
+
+       //console.log(dayOfPurch)
+       var stepCheck = stepsLength -1 
+       if (parseInt(dayOfPurch) === parseInt(todayDay))
+       {
+         
+        console.log("in equal "  + stepCheck)
+       }
+        else if ((parseInt(dayOfPurch) +1) ===(parseInt(todayDay)))
+       {
+         stepCheck = Math.floor(Math.random() * (stepsLength/3)) + 1 
+         console.log(stepsLength/2)
+
+       }
+        else if ((parseInt(dayOfPurch) + 2) ===  parseInt(todayDay))
+       {
+         stepCheck = stepsLength -1 
+
+       }
+        
+      console.log(stepCheck)
+        var lattt = legs[0].steps[stepCheck].end_location.lat();
+        var lnggg = legs[0].steps[stepCheck].end_location.lng();
+        var latlng = {lat: lattt, lng: lnggg};
+        drawMarker(latlng);
+        
+    }
+    else {
+        alert("directions response "+status);
+    }
+ });
 }
 
-function drawMarker(geocoder, resultsMap, latt, lngg)
-{
-   
-    var latlng = {lat: latt, lng: lngg};
 
-            var marker = new google.maps.Marker({
-              map: resultsMap,
-              position: latlng
-            });
- 
+function drawMarker(latlng)
+{
+    //console.log("in drawMarker")
+
+    var marker = new google.maps.Marker({
+      map: map,
+      position: latlng
+  });
+
 }
 
 function sendLoc(data)
 {
-   addressLoc =  $('#address').val();
-   storeloc =  $('#storeLoc').val();
-    console.log(addressLoc);
-    console.log(storeloc);
-    //initMap()
+ addressLoc =  $('#address').val();
+ storeloc  =  $('#storeLoc').val();
+ timestamp =$('#timeBought').val();
+ console.log(addressLoc);
+ console.log(storeloc);
+ console.log(timestamp)
 }
 
 document.addEventListener('DOMContentLoaded', sendLoc);
