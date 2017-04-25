@@ -57,22 +57,34 @@ function sendTracking(e)
  //----------------------------------------------------------------------------
  
 
-
+ var polyline = null;
 var addressLoc =  null;
 var storeLoc = null;
-
+var map;
 
 function initMap() {
   var directionsService = new google.maps.DirectionsService;
   var directionsDisplay = new google.maps.DirectionsRenderer;
-  var map = new google.maps.Map(document.getElementById('map'), {
+
+map = new google.maps.Map(document.getElementById("map"));
+    polyline = new google.maps.Polyline({
+    path: [],
+    strokeColor: '#FF0000',
+    strokeWeight: 3
+    });
+
+  /* map = new google.maps.Map(document.getElementById('map'), {
     zoom: 7,
     center: {lat: 37.56,  lng: -122.32} //santa clara 
-  });
+  });*/
   directionsDisplay.setMap(map);
+
+  
   //console.log("in initMap");
     calculateAndDisplayRoute(directionsService, directionsDisplay);
-    calMidPoint(directionsService, directionsDisplay);
+    calMidPoint(directionsService, directionsDisplay, map);
+
+    
 }
 
 function calculateAndDisplayRoute(directionsService, directionsDisplay) {
@@ -91,15 +103,51 @@ function calculateAndDisplayRoute(directionsService, directionsDisplay) {
 }
 
 
-function calMidPoint()
+function calMidPoint(directionsService, directionsDisplay, map)
 {
+    var geocoder = new google.maps.Geocoder();
     console.log("calculating calMidPoint");
     var context = {
         origin: $('#storeLoc').val(),
         destination: $('#address').val(),
         travelMode: 'DRIVING'
     };
+       polyline.setPath([]);
+    directionsService.route(context, function(response, status)
+    {
+    //var bounds = new google.maps.LatLngBounds();
+        startLocation = new Object();
+        endLocation = new Object();
+        directionsDisplay.setDirections(response);
+        var route = response.routes[0];
+       // console.log("route stuff", route);
+        var latX = route.legs[0].start_location.lat();
+        var lngX = route.legs[0].start_location.lng();
+        var latY =  route.legs[0].end_location.lat();
+        var lngY =  route.legs[0].end_location.lng();
+    var mid_lat = (latX + latY)/2;
+ 
+    var  mid_lon = (latY + lngY)/2;
+drawMarker(geocoder, map, mid_lat, mid_lon - 79.97);
 
+    });
+
+
+
+    
+
+}
+
+function drawMarker(geocoder, resultsMap, latt, lngg)
+{
+   
+    var latlng = {lat: latt, lng: lngg};
+
+            var marker = new google.maps.Marker({
+              map: resultsMap,
+              position: latlng
+            });
+ 
 }
 
 function sendLoc(data)
