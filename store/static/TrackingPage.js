@@ -79,27 +79,39 @@ else
 
 
 function calculateAndDisplayRoute(directionsService, directionsDisplay) {
-var context = {
-    origin: $('#storeLoc').val(),
-    destination: $('#address').val(),
-    travelMode: 'DRIVING'
-};
+	var context = { //set up context with start and end directions 
+   	 	origin: $('#storeLoc').val(),
+    	destination: $('#address').val(),
+    	travelMode: 'DRIVING'
+		};
 
-directionsService.route(context, function(response, status)
+	directionsService.route(context, function(response, status)
+	{
+    	if (status === 'OK') {
+        	directionsDisplay.setDirections(response); //sets the directions on the map
+        	var legs = response.routes[0].legs;
+         	//marker = drawMarker(legs[0].start_location);
+
+        	var step = stepCheck(legs)
+        
+        	var lattt = legs[0].steps[step].end_location.lat();
+        	var lnggg = legs[0].steps[step].end_location.lng();
+        	var latlng = {lat: lattt, lng: lnggg};
+        	drawMarker(latlng);
+        
+    }
+    else {
+        alert("directions response "+status);
+    }
+ });
+}
+
+
+function stepCheck(legs)
 {
-    if (status === 'OK') {
-       
-        directionsDisplay.setDirections(response);
-        // For each route, display summary information.
-        var legs = response.routes[0].legs;
-         marker = drawMarker(legs[0].start_location);
-
-
-
-
-         var splitTime = timestamp.split(" ")
-         console.log(splitTime)
-         var dayOfPurch = splitTime[0].split("-")[2] //date of pruchase
+		var splitTime = timestamp.split(" ")
+        var dayOfPurch = splitTime[0].split("-")[2] //date of pruchase
+        
         
         var today = new Date();
         var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
@@ -127,28 +139,17 @@ directionsService.route(context, function(response, status)
          stepCheck = stepsLength -1 
 
        }
-        
-      console.log(stepCheck)
-        var lattt = legs[0].steps[stepCheck].end_location.lat();
-        var lnggg = legs[0].steps[stepCheck].end_location.lng();
-        var latlng = {lat: lattt, lng: lnggg};
-        drawMarker(latlng);
-        
-    }
-    else {
-        alert("directions response "+status);
-    }
- });
+       return stepCheck
 }
-
 
 function drawMarker(latlng)
 {
-    //console.log("in drawMarker")
-
-    var marker = new google.maps.Marker({
-      map: map,
-      position: latlng
+    var iconBase = { url: "https://maps.google.com/mapfiles/kml/shapes/truck.png",
+            			scaledSize: new google.maps.Size(18, 18)};
+  var marker = new google.maps.Marker({
+    position: latlng,
+    map: map,
+    icon: iconBase
   });
 
 }
