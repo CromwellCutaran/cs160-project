@@ -93,7 +93,7 @@ function calculateAndDisplayRoute(directionsService, directionsDisplay) {
          	//marker = drawMarker(legs[0].start_location);
 
         	var step = stepCheck(legs)
-        
+
         	var lattt = legs[0].steps[step].end_location.lat();
         	var lnggg = legs[0].steps[step].end_location.lng();
         	var latlng = {lat: lattt, lng: lnggg};
@@ -109,42 +109,35 @@ function calculateAndDisplayRoute(directionsService, directionsDisplay) {
 
 function stepCheck(legs)
 {
-		var splitTime = timestamp.split(" ")
-        var dayOfPurch = splitTime[0].split("-")[2] //date of pruchase
-        
-        
-        var today = new Date();
-        var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
-       var todayDay = date.split('-')[2] //todays date
-       
-       var stepsLength = legs[0].steps.length
-       
-       var stepper = null
+	var splitTime = timestamp.split(" ")
+    var dayOfPurch = splitTime[0].split("-")[2] //date of pruchase
+
+    var today = new Date();
+    var todayDay = today.getDate() //todays day
+    var stepsLength = legs[0].steps.length   // path to route 
+    var stepper = null
 
        //console.log(dayOfPurch)
-       var stepCheck = stepsLength -1 
-       if (parseInt(dayOfPurch) === parseInt(todayDay))
-       {
-         
-        console.log("in equal "  + stepCheck)
-       }
-        else if ((parseInt(dayOfPurch) +1) ===(parseInt(todayDay)))
-       {
-         stepCheck = Math.floor(Math.random() * (stepsLength/3)) + 1 
-         console.log(stepsLength/2)
-
-       }
-        else if ((parseInt(dayOfPurch) + 2) ===  parseInt(todayDay))
-       {
-         stepCheck = stepsLength -1 
-
-       }
-       return stepCheck
+    var stepCheck = stepsLength -1 
+    if (parseInt(dayOfPurch) === parseInt(todayDay))
+    { 
+       stepCheck = null
+    }
+    else if ((parseInt(dayOfPurch) + 1) ===(parseInt(todayDay))) //if it is on the second day of delivery 
+    {
+       stepCheck = Math.floor(Math.random() * (stepsLength/3)) + 1 
+       console.log(stepsLength/2)
+    }
+    else if ((parseInt(dayOfPurch) + 2) ===  parseInt(todayDay)) //item as been delivered 
+    {
+       stepCheck = stepsLength -1 
+    }
+    return stepCheck
 }
 
 function drawMarker(latlng)
 {
-    var iconBase = { url: "https://maps.google.com/mapfiles/kml/shapes/truck.png",
+  var iconBase = { url: "https://maps.google.com/mapfiles/kml/shapes/truck.png",
             			scaledSize: new google.maps.Size(18, 18)};
   var marker = new google.maps.Marker({
     position: latlng,

@@ -238,10 +238,14 @@ def post_tracking(request):
             else: 
                 request.session['progress'] = (int(dateUp) - int(currentDay))/(int(dateUp) - int(orderdate)) * 100
                 #pdb.set_trace()
+            if int(orderdate) == 30:
+                dateUp = 1
+                newMonth = int(value[5:7]) + 1
+                value = value[0:5] + str(newMonth) + str('-')
+                #pdb.set_trace()
             request.session['delivery'] = value + str(dateUp)
             #returns success response to AJAX which recieves the html page requests(includes sessions)
             return render(request, 'store/trackingPage.html')
         except Order.DoesNotExist:
             raise Http404("Order does not exist")
-
             
