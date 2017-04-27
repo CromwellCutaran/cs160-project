@@ -55,7 +55,7 @@ else
 //----------------------------------------------------------------------------
  //----------------------------------------------------------------------------
  //----------------------------------------------------------------------------
- 
+// Based on Google Maps API : https://developers.google.com/maps/documentation/javascript/directions
 
  var addressLoc =  null;
  var storeLoc = null;
@@ -152,9 +152,6 @@ function sendLoc(data)
  addressLoc =  $('#address').val();
  storeloc  =  $('#storeLoc').val();
  timestamp =$('#timeBought').val();
- console.log(addressLoc);
- console.log(storeloc);
- console.log(timestamp)
 }
 
 document.addEventListener('DOMContentLoaded', sendLoc);
