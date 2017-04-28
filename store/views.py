@@ -11,6 +11,8 @@ from django.views.decorators.http import require_GET
 #from store.models import Order #creating temp model to test traking page
 from orders.models import OrderItems #refernce the database
 from orders.models import Order
+
+from django.db.models import Count
 import pdb
 #import simplejson as json
 from django.core import serializers
@@ -142,34 +144,62 @@ def increment_in_cart(request):
 
 def track(request):
     #context is dixtionary passed through the html page
+    orderedItems = []
+    orderedQuan = []
+    itemDict = {}
+    orderId = request.session.get('order_id')
+    for e in OrderItems.objects.all():
+        if e.order_id == orderId:
+            orderedItems.append(e.item_id)
+            orderedQuan.append(e.quantity)
+    storeloc = request.session.get('loc')
+    if storeloc == 'Santa Clara':
+        #do stuff
+        for i,q in zip(orderedItems,orderedQuan):
+            tempOrder = SC_produce.objects.get(id=i).name
+            quant = q
+            itemDict[tempOrder] = quant
+    
+    else:
+        for i,q in zip(orderedItems,orderedQuan):
+            tempOrder = SM_produce.objects.get(id=i).name
+            quant = q
+            itemDict[tempOrder] = quant
+
+        #do other stuff
     context = {
-    'order_id' : request.session.get('order_id'),
-    'fname' : request.session.get('fname'),
-    'lname' : request.session.get('lname'),
-    'addr' :request.session.get('addr'),
-    'city' : request.session.get('city'),
-    'state' : request.session.get('state'),
-    'loc' : request.session.get('loc'),
-    'price' : request.session.get('price'),
-    'timestamp' : request.session.get('timestamp'),
-    'zip' : request.session.get('zip'),
-    'state' : request.session.get('state'),
-    'email' : request.session.get('email'),
-    'delivery' : request.session.get('delivery'),
-    'progress_bar' : request.session.get('progress')
-    }
+        'order_id' : orderId,
+        'fname' : request.session.get('fname'),
+        'lname' : request.session.get('lname'),
+        'addr' :request.session.get('addr'),
+        'city' : request.session.get('city'),
+        'state' : request.session.get('state'),
+        'loc' : storeloc,
+        'price' : request.session.get('price'),
+        'timestamp' : request.session.get('timestamp'),
+        'zip' : request.session.get('zip'),
+        'state' : request.session.get('state'),
+        'email' : request.session.get('email'),
+        'delivery' : request.session.get('delivery'),
+        'progress_bar' : request.session.get('progress'),
+        'items': itemDict
+
+                }
+    #pdb.set_trace()
+
     #request is the get 
    #pdb.set_trace()  render takes in template with what it will replace (context)
     return render(request, 'store/trackingPage.html', context) #renders the tracking page with the information 
 
 @require_GET
 @csrf_exempt #request is created 
-def post_tracking(request):	
+def post_tracking(request): 
     if request.method == 'GET':#get from data base match the request
         tracking_number = request.GET.get('tNumber') #get the tracking number
 
         try:
             order = Order.objects.get(order_id=tracking_number) #set the table to order from the database
+
             request.session['order_id'] = order.order_id #saves in curretn session with key value pair 
             request.session['fname'] = order.first_name
             request.session['lname'] = order.last_name
@@ -202,8 +232,14 @@ def post_tracking(request):
             else: 
                 request.session['progress'] = (int(dateUp) - int(currentDay))/(int(dateUp) - int(orderdate)) * 100
                 #pdb.set_trace()
+            if int(orderdate) == 30:
+                dateUp = 1
+                newMonth = int(value[5:7]) + 1
+                value = value[0:5] + str(newMonth) + str('-')
+                #pdb.set_trace()
             request.session['delivery'] = value + str(dateUp)
             #returns success response to AJAX which recieves the html page requests(includes sessions)
             return render(request, 'store/trackingPage.html')
         except Order.DoesNotExist:
             raise Http404("Order does not exist")
+            

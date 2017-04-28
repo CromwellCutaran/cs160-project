@@ -8,9 +8,10 @@ var clickButton  = document.getElementById("submitButton")
 //name.innerText = "Harkamal";
 
 var data = null;
-
-clickButton.addEventListener('click', sendTracking)
-
+if(trackingNumber)
+{
+    clickButton.addEventListener('click', sendTracking)
+}
 
 function sendTracking(e)
 {
@@ -29,11 +30,11 @@ function sendTracking(e)
         // handle a successful response
         success : function(json) {
             //$('#trackingNumberInput').val(''); // remove the value from the input
-            console.log("tracking number sent back by server", json); // log the returned json to the console
+          //  console.log("tracking number sent back by server", json); // log the returned json to the console
           //  setTrackingPageValues(json);
           window.location.href = 'track'; //ocnce successfully data is sent then track is called in URL to Views
             console.log("success"); // another sanity check
-        
+
         },
 
         // handle a non-successful response
@@ -43,16 +44,116 @@ function sendTracking(e)
         }
         
     });
-	}
-	else 
-	{	
+}
+else 
+{	
 	console.log("no input");
     alert("Please enter Tracking Number for your Order")
-	}
-	
+}
+
+}
+//----------------------------------------------------------------------------
+ //----------------------------------------------------------------------------
+ //----------------------------------------------------------------------------
+// Based on Google Maps API : https://developers.google.com/maps/documentation/javascript/directions
+
+ var addressLoc =  null;
+ var storeLoc = null;
+ var timestamp = null;
+ var map;
+
+ function initMap() {
+  var directionsService = new google.maps.DirectionsService;
+  var directionsDisplay = new google.maps.DirectionsRenderer;
+
+  map = new google.maps.Map(document.getElementById('map'), mapOps = {
+      zoom: 7,
+      mapTypeId: google.maps.MapTypeId.ROADMAP,
+      center: {lat: 37.56,  lng: -122.32} //santa clara
+  });
+  
+  directionsDisplay.setMap(map);
+  calculateAndDisplayRoute(directionsService, directionsDisplay); 
 }
 
 
 
+function calculateAndDisplayRoute(directionsService, directionsDisplay) {
+	var context = { //set up context with start and end directions 
+   	 	origin: $('#storeLoc').val(),
+    	destination: $('#address').val(),
+    	travelMode: 'DRIVING'
+		};
+
+	directionsService.route(context, function(response, status)
+	{
+    	if (status === 'OK') {
+        	directionsDisplay.setDirections(response); //sets the directions on the map
+        	var legs = response.routes[0].legs;
+         	//marker = drawMarker(legs[0].start_location);
+
+        	var step = stepCheck(legs)
+
+        	var lattt = legs[0].steps[step].end_location.lat();
+        	var lnggg = legs[0].steps[step].end_location.lng();
+        	var latlng = {lat: lattt, lng: lnggg};
+        	drawMarker(latlng);
+        
+    }
+    else {
+        alert("directions response "+status);
+    }
+ });
+}
+
+
+function stepCheck(legs)
+{
+	var splitTime = timestamp.split(" ")
+    var dayOfPurch = splitTime[0].split("-")[2] //date of pruchase
+
+    var today = new Date();
+    var todayDay = today.getDate() //todays day
+    var stepsLength = legs[0].steps.length   // path to route 
+    var stepper = null
+
+       //console.log(dayOfPurch)
+    var stepCheck = stepsLength -1 
+    if (parseInt(dayOfPurch) === parseInt(todayDay))
+    { 
+       stepCheck = null
+    }
+    else if ((parseInt(dayOfPurch) + 1) ===(parseInt(todayDay))) //if it is on the second day of delivery 
+    {
+       stepCheck = Math.floor(Math.random() * (stepsLength/3)) + 1 
+       console.log(stepsLength/2)
+    }
+    else if ((parseInt(dayOfPurch) + 2) ===  parseInt(todayDay)) //item as been delivered 
+    {
+       stepCheck = stepsLength -1 
+    }
+    return stepCheck
+}
+
+function drawMarker(latlng)
+{
+  var iconBase = { url: "https://maps.google.com/mapfiles/kml/shapes/truck.png",
+            			scaledSize: new google.maps.Size(18, 18)};
+  var marker = new google.maps.Marker({
+    position: latlng,
+    map: map,
+    icon: iconBase
+  });
+
+}
+
+function sendLoc(data)
+{
+ addressLoc =  $('#address').val();
+ storeloc  =  $('#storeLoc').val();
+ timestamp =$('#timeBought').val();
+}
+
+document.addEventListener('DOMContentLoaded', sendLoc);
 
 
