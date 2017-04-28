@@ -51,15 +51,9 @@ def products(request):
         'db_products' : db_products_json,      
     }
 
-    #pdb.set_trace()
-
     return render(request, "store/" + location, context)
 
 def cart(request):
-
-    # TODO:
-    # Have two +/- buttons for quantity changing
-    # Checkout button in bottom-right
     
     output = ""
     cart = request.session['cart']
@@ -71,8 +65,6 @@ def cart(request):
         'cart' : cart,
         'location' : request.session['store'],
      }
-
-    #pdb.set_trace()
 
     return render(request, 'store/cart.html', context)
 
@@ -105,11 +97,6 @@ def update_cart(request):
         cart[fields['name']][1] += 1
 
     request.session['cart'] = cart
-
-
-    # TODO?:
-    # Decrement cart items from database
-
 
     return HttpResponse("Cart updated")
 
