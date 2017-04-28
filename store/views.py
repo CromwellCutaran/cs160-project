@@ -31,12 +31,6 @@ def products(request):
 
     location_id = request.path.split('_')[1]
 
-    # TODO:
-    # Restrict user from adding items from one store
-    #  to cart as long as items from the other store
-    #  are present in cart.
-
-
     if location_id == 'sc':
         location = 'SC_produceStore.html'
         db_products = SC_produce.objects.all().order_by("name")
