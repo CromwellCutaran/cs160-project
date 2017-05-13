@@ -11,6 +11,7 @@ from django.views.decorators.csrf import csrf_exempt
 from orders.models import Order, OrderItems
 from store.models import SC_produce, SM_produce
 import jsonpickle
+from django.db.models import F
 
 @csrf_exempt
 def payment_done(request):
@@ -18,7 +19,22 @@ def payment_done(request):
     order_idm = request.session.get("order_id")
     order = Order.objects.get(order_id=order_idm)
     order.paid = True
+    store = request.session.get('store')
+    #Decrement  from amount_left
+    orderitems = OrderItems.objects.all()
+    orderitemQuery = orderitems.filter(order_id=order_idm)
+    itemIDs = orderitemQuery.values_list('item_id', 'quantity')
+    #print(itemIDs)
+    #print(orderitemQuery)
+    if store == 'sc':
+        for i, j in itemIDs:
+            SC_produce.objects.filter(id = i).update(amount_left=F('amount_left')-j)
+    else:
+        for i, j in itemIDs:
+            SM_produce.objects.filter(id = i).update(amount_left=F('amount_left')-j)
+
     order.save()
+
     request.session.flush()
 
     return render(request, 'payment/done.html', {'order': order_idm})
