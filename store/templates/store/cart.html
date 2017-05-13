@@ -115,9 +115,9 @@
                             <a class="btn btn--secondary" href="/store/products_{{ location }}">Continue shopping</a>
                         </p>
                         <p>
-                            <a href="/orders/"
-                                <button type="submit" name="checkout" class="btn">Check Out</button>
-                            </a>
+                            <!--<a href="/orders/" -->
+                                <button type="submit" name="check_cart" class="btn check_cart">Check Out</button>
+                            <!--</a> -->
                         </p>
                         <!-- end of new code -->
 
@@ -163,6 +163,17 @@ $(document).ready(function(){
             }
         });
         window.location.reload();
+    });
+});
+
+$(document).ready(function(){
+    $('.check_cart').click(function() {
+        var cart = '{{ cart }}';
+        if (cart.length > 2) {
+            window.location.href = '/orders/';
+        } else {
+            alert("Your cart is empty; please add some items before trying to check out.");
+        }
     });
 });
 
